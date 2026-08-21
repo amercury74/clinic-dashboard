@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>한의원 업무 대시보드</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #191919;
+      color: #D4D4D4;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      padding: 40px 60px;
+    }
+
+    /* 상단 타이틀 영역 */
+    .header {
+      margin-bottom: 40px;
+    }
+
+    .icon-title {
+      font-size: 38px;
+      margin-bottom: 8px;
+    }
+
+    .title {
+      font-size: 32px;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #9B9B9B;
+    }
+
+    /* 3열 레이아웃 grid */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 30px;
+    }
+
+    .column {
+      background-color: #202020;
+      border-radius: 8px;
+      padding: 16px;
+      border: 1px solid #2F2F2F;
+    }
+
+    /* 카테고리 헤더 */
+    .column-header {
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      display: inline-block;
+    }
+
+    /* 섹션별 헤더 색상 */
+    .bg-green {
+      background-color: #1C3829;
+      color: #52C41A;
+    }
+
+    .bg-purple {
+      background-color: #2B213A;
+      color: #B37FEB;
+    }
+
+    .bg-yellow {
+      background-color: #382E1C;
+      color: #FADB14;
+    }
+
+    /* 문서 링크 리스트 */
+    .link-list {
+      list-style: none;
+    }
+
+    .link-item {
+      margin-bottom: 4px;
+    }
+
+    .link-item a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      color: #D4D4D4;
+      text-decoration: none;
+      font-size: 14px;
+      border-radius: 4px;
+      transition: background-color 0.2s ease;
+    }
+
+    .link-item a:hover {
+      background-color: #2F2F2F;
+      color: #FFFFFF;
+    }
+
+    .item-icon {
+      font-size: 16px;
+    }
+
+    /* 하단 가이드 바 */
+    .footer-bar {
+      background-color: #282828;
+      border-radius: 6px;
+      padding: 12px 16px;
+      font-size: 14px;
+      color: #D4D4D4;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* 반응형 (모바일/웹 분기) */
+    @media (max-width: 900px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+      body {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 헤더 영역 -->
+  <div class="header">
+    <div class="icon-title">✨</div>
+    <h1 class="title">한의원 업무 대시보드</h1>
+    <p class="subtitle">구글 드라이브 주요 문서 및 관리 파일 바로가기</p>
+  </div>
+
+  <!-- 메인 대시보드 (3열) -->
+  <div class="dashboard-grid">
+
+    <!-- 1열: 진료 및 임상 -->
+    <div class="column">
+      <div class="column-header bg-green">🩺 진료 & 임상 WORK</div>
+      <ul class="link-list">
+        <li class="link-item">
+          <!-- href="" 부분에 실제 구글 드라이브 파일/폴더 공유 링크를 넣으세요 -->
+          <a href="https://drive.google.com" target="_blank">
+            <span class="item-icon">🌿</span> 원내 처방집 및 약재 용량표
+          </a>
+        </li>
+        <li class="link-item">
+          <a href="https://drive.google.com" target="_blank">
+            <span class="item-icon">📜</span> 탕전 및 제형별 매뉴얼
+          </a>
+        </li>
+        <li class="link-item">
+          <a href="https://drive.google.com" target="_blank">
+            <span class="item-icon">📋</span> 초진 / 재진 설문지 양식
+          </a>
+        </li>
+        <li class="link-item">
+          <a href="https://drive.google.com" target="_blank">
+            <span class="item-icon">💡</span> 질환별 환자 안내문 모음
+          </a>
+        </li>
+        <li class="link-item">
+          <a href="https://drive.google.com" target="_blank">
+            <span class="item-icon">🩺</span> 신규 의료진 인수인계서
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- 2열: 행정 및 인사 -->
+    <div class="column">
+      <div class="column-header bg-purple">📋 행정 & 인사 HR</div>
+      <ul class="link-list">
+        <li class="link-item">
+          <a href="https://drive.google.com" target="_blank">
+            <span class="item-icon">👥</span> 근로계약서 / 노무 서식
+          </a>
+        </li>
+        <li class="link-item">
+          <a href="https://drive.google.com" target="_blank">
+            <span class="item-icon">📅</span> 직원 근태 / 휴가 신청 기록부
+          </a>
+        </li>
+        <li class="link-item">
+          <a href="https://drive.google.com" target="_blank">
+            <span class="item-icon">🚦</span> 원내 직원 근무 수칙 (SOP)
+          </a>
+        </li>
+        <li class="link-item">
+          <a href="https://drive.google.com" target="_blank">
+            <span class="item-icon">🏥</span> 의료기기 점검 및 관리대장
+          </a>
+        </li>
+        <li class="link-item">
+          <a href="https://drive.google.com" target="_blank">
+            <span class="item-icon">📦</span> 약재 및 소모품 재고 현황
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- 3열: 경영 및 재무 -->
+    <div class="column">
+      <div class="column-header bg-yellow">💰 경영 & 재무 MANAGEMENT</div>
+      <ul class="link-list">
+        <li class="link-item">
+          <a href="https://drive.google.com" target="_blank">
+            <span class="item-icon">📊</span> 일일 매출 / 수입 집계표
+          </a>
+        </li>
+        <li class="link-item">
+          <a href="https://drive.google.com" target="_blank">
+            <span class="item-icon">📈</span> 월별 경영 및 재무 결산서
+          </a>
+        </li>
+        <li class="link-item">
+          <a href="https://drive.google.com" target="_blank">
+            <span class="item-icon">🏥</span> 건강보험 정산 / 연말정산 자료
+          </a>
+        </li>
+        <li class="link-item">
+          <a href="https://drive.google.com" target="_blank">
+            <span class="item-icon">📣</span> 원내 마케팅 & 홍보 기획안
+          </a>
+        </li>
+        <li class="link-item">
+          <a href="https://drive.google.com" target="_blank">
+            <span class="item-icon">📇</span> 주요 거래처 / 원외 협력업체 목록
+          </a>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- 하단 안내 영역 -->
+  <div class="footer-bar">
+    <span>⁉️</span> <b>사용 가이드:</b> 해당 항목을 클릭하면 구글 드라이브 문서로 새 창에서 즉시 이동합니다.
+  </div>
+
+</body>
+</html>
