@@ -165,7 +165,7 @@
     .state-in { background-color: #1C3829; color: #52C41A; border: 1px solid #275038; }
     .state-out { background-color: #381C1C; color: #FF4D4F; border: 1px solid #502727; }
 
-    /* 화면 중앙 정렬 커스텀 모달 스타일 */
+    /* 화면 중앙 정렬 커스텀 모달 스타일 (확인/취소용) */
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -177,7 +177,7 @@
       justify-content: center;
       align-items: center;
       z-index: 1000;
-      display: none; /* 기본 숨김 */
+      display: none;
     }
 
     .modal-box {
@@ -217,6 +217,33 @@
 
     .modal-btn-cancel { background-color: #333; color: #CCC; border: 1px solid #444; }
     .modal-btn-cancel:hover { background-color: #444; }
+
+    /* 화면 중앙 자동 닫힘 토스트 알림 스타일 */
+    .toast-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.4);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1100;
+      display: none;
+    }
+
+    .toast-box {
+      background-color: #222222;
+      border: 1px solid #4A4A4A;
+      border-radius: 10px;
+      padding: 20px 30px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+      text-align: center;
+      font-size: 15px;
+      color: #FFF;
+      font-weight: bold;
+    }
 
     /* 5열 레이아웃 grid */
     .dashboard-grid {
@@ -303,7 +330,7 @@
 </head>
 <body>
 
-  <!-- 화면 중앙 정렬 커스텀 모달 구조 -->
+  <!-- 화면 중앙 정렬 확인 모달 (처음 누를 때) -->
   <div id="customModal" class="modal-overlay">
     <div class="modal-box">
       <div id="modalMsg" class="modal-msg">메시지 내용</div>
@@ -312,6 +339,11 @@
         <button id="modalCancelBtn" class="modal-btn modal-btn-cancel">취소</button>
       </div>
     </div>
+  </div>
+
+  <!-- 화면 중앙 자동 닫힘 토스트 알림창 (완료 시) -->
+  <div id="toastModal" class="toast-overlay">
+    <div id="toastMsg" class="toast-box">완료 메시지</div>
   </div>
 
   <!-- 헤더 영역 -->
@@ -426,7 +458,7 @@
 
   <!-- 하단 가이드 바 -->
   <div class="footer-bar">
-    <span>⁉️</span> <b>사용 가이드:</b> 중앙 정렬 팝업창을 통해 출근/퇴근을 편리하게 기록할 수 있습니다.
+    <span>⁉️</span> <b>사용 가이드:</b> 처리가 완료되면 알림창이 자동으로 닫힙니다.
   </div>
 
   <script>
@@ -494,7 +526,7 @@
       loadRecentFiles();
     };
 
-    // 화면 중앙 정렬 커스텀 확인 팝업창 함수
+    // 중앙 정렬 확인 모달 (처음 누를 때)
     function showCustomConfirm(message, onConfirm) {
       const modal = document.getElementById('customModal');
       const msgEl = document.getElementById('modalMsg');
@@ -504,7 +536,6 @@
       msgEl.innerText = message;
       modal.style.display = 'flex';
 
-      // 기존 이벤트 리스너 제거를 위한 클론 생성
       const newConfirmBtn = confirmBtn.cloneNode(true);
       const newCancelBtn = cancelBtn.cloneNode(true);
       confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
@@ -518,6 +549,20 @@
       newCancelBtn.onclick = function() {
         modal.style.display = 'none';
       };
+    }
+
+    // 중앙 정렬 토스트 알림 (확인 없이 잠깐 떴다가 자동 닫힘)
+    function showToast(message) {
+      const toast = document.getElementById('toastModal');
+      const msgEl = document.getElementById('toastMsg');
+
+      msgEl.innerText = message;
+      toast.style.display = 'flex';
+
+      // 1.2초(1200ms) 후에 자동으로 닫힘
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 1200);
     }
 
     // 출퇴근 멤버 카드 생성 함수
@@ -539,7 +584,7 @@
       });
     }
 
-    // 버튼 클릭 시 중앙 정렬 팝업 호출 및 구글 시트 전송
+    // 버튼 클릭 시 처리
     function toggleAttendance(name) {
       const currentState = attendanceStates[name];
       const nextState = currentState === '출근' ? '퇴근' : '출근';
@@ -560,11 +605,12 @@
           renderAttendanceGrid();
 
           const timeStr = new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
-          showCustomConfirm(`✅ ${name} 님 [${currentState}] 완료되었습니다. (${timeStr})`, function(){});
+          // 완료 메시지는 확인 버튼 없이 토스트로 잠깐 떴다 닫힘
+          showToast(`✅ ${name} 님 [${currentState}] 완료되었습니다. (${timeStr})`);
         })
         .catch(err => {
           console.error(err);
-          showCustomConfirm('출퇴근 기록 실패. 인터넷 연결 상태를 확인해주세요.', function(){});
+          showToast('출퇴근 기록 실패. 인터넷 연결 상태를 확인해주세요.');
         });
       });
     }
@@ -589,7 +635,7 @@
           document.getElementById('colAdmin').classList.add('locked');
           
           loadRecentFiles();
-          showCustomConfirm('로그아웃 되었습니다.', function(){});
+          showToast('로그아웃 되었습니다.');
         });
       }
     }
