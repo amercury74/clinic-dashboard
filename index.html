@@ -8,15 +8,11 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     
-    /* 오리지널 다크모드 기본 스타일 */
     body { background-color: #121212; color: #E0E0E0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 24px 20px; font-size: 13px; }
     
     .header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 16px; }
     .brand-group { display: flex; align-items: flex-end; gap: 16px; }
-    
-    /* 로고 흰색 반전 처리 */
     .header-logo { height: 90px; width: auto; display: block; filter: invert(1) grayscale(100%) brightness(200%); }
-    
     .title { font-size: 34px; font-weight: 700; color: #FFFFFF; letter-spacing: -0.5px; line-height: 1; margin-bottom: 4px; }
     
     .auth-btn-group { display: flex; gap: 10px; align-items: center; }
@@ -26,28 +22,38 @@
     .btn-logout { padding: 6px 14px; background: #2A2A2A; color: #CCCCCC; border: 1px solid #3F3F3F; border-radius: 5px; cursor: pointer; display: none; font-size: 12.5px; }
     .btn-logout:hover { background: #333333; }
     
-    /* 상단 통합 그리드: 세 영역 한 줄 배치 */
     .top-layout-grid { display: grid; grid-template-columns: 1fr 1fr 1.2fr; gap: 14px; margin-bottom: 16px; align-items: stretch; }
     
     /* 임시공지 칸 스타일 */
-    .notice-board-section { background-color: #1E1E1E; border: 1px solid #2C2C2C; border-radius: 8px; padding: 12px 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.3); display: flex; flex-direction: column; gap: 8px; }
-    .section-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+    .notice-board-section { background-color: #1E1E1E; border: 1px solid #2C2C2C; border-radius: 8px; padding: 12px 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.3); display: flex; flex-direction: column; justify-content: space-between; }
+    .section-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
     .section-title-group { display: flex; align-items: baseline; gap: 6px; }
     .notice-label { font-size: 13.5px; font-weight: bold; color: #F59E0B; }
     .section-desc { font-size: 11px; color: #9CA3AF; }
     
-    .notice-row { display: flex; gap: 6px; align-items: center; margin-bottom: 4px; }
+    /* 공지 목록 영역 */
+    .notice-list-container { display: flex; flex-direction: column; gap: 5px; margin-bottom: 8px; max-height: 105px; overflow-y: auto; }
+    .notice-item-row { display: flex; justify-content: space-between; align-items: center; background-color: #121212; border: 1px solid #2C2C2C; border-radius: 5px; padding: 5px 8px; font-size: 12px; }
+    .notice-content-wrap { display: flex; align-items: center; gap: 6px; overflow: hidden; }
+    .new-badge { background-color: #EF4444; color: #FFFFFF; font-size: 10px; font-weight: bold; padding: 1px 5px; border-radius: 4px; display: inline-block; flex-shrink: 0; animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
+    .notice-text { color: #FFFFFF; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    
+    .notice-empty { color: #6B7280; font-size: 11.5px; text-align: center; padding: 10px 0; }
+    
+    /* 하단 입력 영역 */
+    .notice-input-area { display: flex; gap: 6px; align-items: center; border-top: 1px solid #2C2C2C; padding-top: 8px; }
     .notice-input { flex-grow: 1; border: 1px solid #3F3F3F; border-radius: 4px; padding: 5px 8px; font-size: 12.5px; color: #FFFFFF; background-color: #121212; outline: none; }
     .notice-input:focus { background-color: #1E1E1E; border-color: #2563EB; box-shadow: 0 0 0 2px rgba(37,99,235,0.2); }
-    .notice-btn { padding: 4px 8px; font-size: 11px; font-weight: bold; border-radius: 4px; border: none; cursor: pointer; white-space: nowrap; }
+    .notice-btn { padding: 5px 10px; font-size: 11.5px; font-weight: bold; border-radius: 4px; border: none; cursor: pointer; white-space: nowrap; }
     .btn-save-row { background-color: #2563EB; color: #FFF; }
     .btn-save-row:hover { background-color: #1D4ED8; }
-    .btn-clear-row { background-color: #2A2A2A; color: #9CA3AF; border: 1px solid #3F3F3F; }
-    .btn-clear-row:hover { background-color: #333333; color: #FFFFFF; }
+    .btn-del-row { background-color: #2A2A2A; color: #F87171; border: 1px solid #3F3F3F; font-size: 10.5px; padding: 3px 6px; }
+    .btn-del-row:hover { background-color: #3F2C2C; }
 
     /* 최근 업데이트된 문서 칸 */
     .recent-pane { background-color: #1E1E1E; border: 1px solid #2C2C2C; border-radius: 8px; padding: 12px 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.3); display: flex; flex-direction: column; }
-    .recent-results { max-height: 115px; overflow-y: auto; }
+    .recent-results { max-height: 130px; overflow-y: auto; }
     .recent-results-list { list-style: none; }
     .recent-results-list li { padding: 5px 6px; border-bottom: 1px solid #2A2A2A; display: flex; align-items: center; justify-content: space-between; font-size: 12px; color: #D1D5DB; }
     .recent-results-list a { color: #60A5FA; text-decoration: none; font-weight: 500; }
@@ -130,33 +136,28 @@
   <!-- 상단 가로 3열 레이아웃 -->
   <div class="top-layout-grid">
     
+    <!-- 임시공지 섹션 -->
     <div class="notice-board-section">
-      <div class="section-header-row">
-        <div class="section-title-group">
-          <span class="notice-label">📌 임시공지</span>
-          <span class="section-desc">원내 실시간 메모 공간</span>
+      <div>
+        <div class="section-header-row">
+          <div class="section-title-group">
+            <span class="notice-label">📌 임시공지</span>
+            <span class="section-desc">원내 실시간 메모 공간</span>
+          </div>
+        </div>
+        <!-- 상단 공지 목록 영역 -->
+        <div id="noticeListContainer" class="notice-list-container">
+          <!-- 동적 생성 -->
         </div>
       </div>
-      <!-- 줄 1 -->
-      <div class="notice-row">
-        <input type="text" id="noticeInput0" class="notice-input" placeholder="1번 공지사항 입력...">
-        <button class="notice-btn btn-save-row" onclick="saveRow(0)">저장</button>
-        <button class="notice-btn btn-clear-row" onclick="clearRow(0)">삭제</button>
-      </div>
-      <!-- 줄 2 -->
-      <div class="notice-row">
-        <input type="text" id="noticeInput1" class="notice-input" placeholder="2번 공지사항 입력...">
-        <button class="notice-btn btn-save-row" onclick="saveRow(1)">저장</button>
-        <button class="notice-btn btn-clear-row" onclick="clearRow(1)">삭제</button>
-      </div>
-      <!-- 줄 3 -->
-      <div class="notice-row">
-        <input type="text" id="noticeInput2" class="notice-input" placeholder="3번 공지사항 입력...">
-        <button class="notice-btn btn-save-row" onclick="saveRow(2)">저장</button>
-        <button class="notice-btn btn-clear-row" onclick="clearRow(2)">삭제</button>
+      <!-- 제일 아래 입력 및 저장 영역 -->
+      <div class="notice-input-area">
+        <input type="text" id="newNoticeInput" class="notice-input" placeholder="새로운 임시공지 입력...">
+        <button class="notice-btn btn-save-row" onclick="addNewNotice()">저장</button>
       </div>
     </div>
 
+    <!-- 최근 업데이트된 문서 칸 -->
     <div class="recent-pane">
       <div class="section-header-row" style="margin-bottom: 8px;">
         <div class="section-title-group">
@@ -169,6 +170,7 @@
       </div>
     </div>
 
+    <!-- 출퇴근 기록 칸 -->
     <div class="attendance-pane">
       <div class="section-header-row" style="margin-bottom: 8px;">
         <div class="section-title-group">
@@ -181,6 +183,7 @@
 
   </div>
 
+  <!-- 하단 5개 폴더 메뉴 -->
   <div class="dashboard-grid">
     <div class="column" id="colReception">
       <div class="column-header bg-blue">
@@ -293,7 +296,7 @@
         },
       });
 
-      loadAllNotices();
+      loadNotices();
 
       CONFIG.MEMBERS.forEach(name => {
         attendanceStates[name] = '출근';
@@ -305,44 +308,72 @@
       loadRecentFiles();
     };
 
-    function loadAllNotices() {
-      for (let i = 0; i < 3; i++) {
-        const val = localStorage.getItem('clinic_notice_row_' + i);
-        if (val !== null) {
-          document.getElementById('noticeInput' + i).value = val;
-        }
+    // 임시공지 데이터 관리 (LocalStorage 배열 형태 저장)
+    function getNotices() {
+      const data = localStorage.getItem('clinic_notices_list');
+      return data ? JSON.parse(data) : [];
+    }
+
+    function saveNotices(notices) {
+      localStorage.setItem('clinic_notices_list', JSON.stringify(notices));
+    }
+
+    function loadNotices() {
+      const container = document.getElementById('noticeListContainer');
+      const notices = getNotices();
+
+      if (notices.length === 0) {
+        container.innerHTML = '<div class="notice-empty">등록된 임시공지가 없습니다.</div>';
+        return;
       }
+
+      let html = '';
+      notices.forEach((item, index) => {
+        const newBadge = item.isNew ? '<span class="new-badge">NEW</span>' : '';
+        html += `
+          <div class="notice-item-row">
+            <div class="notice-content-wrap">
+              ${newBadge}
+              <span class="notice-text" title="${item.text}">${item.text}</span>
+            </div>
+            <button class="notice-btn btn-del-row" onclick="deleteNotice(${index})">삭제</button>
+          </div>
+        `;
+      });
+      container.innerHTML = html;
     }
 
-    function saveRow(index) {
-      const val = document.getElementById('noticeInput' + index).value;
-      localStorage.setItem('clinic_notice_row_' + index, val);
-      showToast(`✅ ${index + 1}번 공지가 저장되었습니다.`);
+    function addNewNotice() {
+      const input = document.getElementById('newNoticeInput');
+      const text = input.value.trim();
+
+      if (!text) {
+        showToast('⚠️ 공지 내용을 입력해주세요.');
+        return;
+      }
+
+      const notices = getNotices();
+
+      // 기존 항목들의 NEW는 해제하고, 새로 추가되는 항목에만 isNew: true 부여 후 최상단(unshift)에 추가
+      notices.forEach(item => item.isNew = false);
+      notices.unshift({ text: text, isNew: true });
+
+      saveNotices(notices);
+      input.value = '';
+      loadNotices();
+      showToast('✅ 새로운 임시공지가 최상단에 등록되었습니다.');
     }
 
-    function clearRow(index) {
-      showCustomConfirm(`${index + 1}번 공지 내용을 삭제하시겠습니까?`, function(confirmed) {
+    function deleteNotice(index) {
+      showCustomConfirm('해당 공지 내용을 삭제하시겠습니까?', function(confirmed) {
         if (!confirmed) return;
-        document.getElementById('noticeInput' + index).value = '';
-        localStorage.removeItem('clinic_notice_row_' + index);
-        showToast(`🗑️ ${index + 1}번 공지가 삭제되었습니다.`);
+        const notices = getNotices();
+        notices.splice(index, 1);
+        saveNotices(notices);
+        loadNotices();
+        showToast('🗑️ 공지가 삭제되었습니다.');
       });
     }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      for (let i = 0; i < 3; i++) {
-        const input = document.getElementById('noticeInput' + i);
-        if (input) {
-          let timeout;
-          input.addEventListener('input', () => {
-            clearTimeout(timeout);
-            timeout = setTimeout(() => {
-              localStorage.setItem('clinic_notice_row_' + i, input.value);
-            }, 500);
-          });
-        }
-      }
-    });
 
     async function syncAttendanceStates() {
       try {
