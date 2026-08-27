@@ -165,7 +165,7 @@
     .state-in { background-color: #1C3829; color: #52C41A; border: 1px solid #275038; }
     .state-out { background-color: #381C1C; color: #FF4D4F; border: 1px solid #502727; }
 
-    /* 화면 중앙 정렬 커스텀 모달 스타일 (확인/취소용) */
+    /* 화면 중앙 정렬 확인 모달 (처음 누를 때) */
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -218,7 +218,7 @@
     .modal-btn-cancel { background-color: #333; color: #CCC; border: 1px solid #444; }
     .modal-btn-cancel:hover { background-color: #444; }
 
-    /* 화면 중앙 자동 닫힘 토스트 알림 스타일 */
+    /* 화면 중앙 자동 닫힘 토스트 알림창 (완료 시) */
     .toast-overlay {
       position: fixed;
       top: 0;
@@ -469,8 +469,8 @@
       API_KEY: 'AIzaSyBh-jsauSpFXpQ6jBchn-6R4LhozW81woE',
       CLIENT_ID: '757943296763-pk2ffb4r879dn44v55qhvmpsi1891hhj.apps.googleusercontent.com',
 
-      // 🔗 Apps Script 웹 앱 URL
-      ATTENDANCE_WEBAPP_URL: 'https://script.google.com/macros/s/AKfycbxdBleuMNHvZ3ivuwA8ULVNCV6PVQyStcAdHJwTWIpsY9omACy6iPScZRzdu47jdSfRvA/exec',
+      // 🔗 새롭게 발급된 Apps Script 웹 앱 URL 적용 완료
+      ATTENDANCE_WEBAPP_URL: 'https://script.google.com/macros/s/AKfycbwfE7-V1QV-2iUI6THb1YoK_sYrzt6ojf0d6Ho3CeHeFbfdMUJyQ2iWJwhSFogyOJqkKQ/exec',
 
       // 👥 원원 직원 목록
       MEMBERS: [
@@ -605,7 +605,6 @@
           renderAttendanceGrid();
 
           const timeStr = new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
-          // 완료 메시지는 확인 버튼 없이 토스트로 잠깐 떴다 닫힘
           showToast(`✅ ${name} 님 [${currentState}] 완료되었습니다. (${timeStr})`);
         })
         .catch(err => {
