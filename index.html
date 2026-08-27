@@ -10,9 +10,11 @@
     
     body { background-color: #F8F9FA; color: #333333; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 30px 24px; font-size: 13.5px; }
     
-    .header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 24px; }
-    .header-logo { height: 48px; width: auto; margin-bottom: 6px; display: block; }
-    .title { font-size: 26px; font-weight: 700; color: #111111; }
+    /* 헤더 영역: 로고 + 대시보드 텍스트 / 로그인 버튼 */
+    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .brand-group { display: flex; align-items: center; gap: 16px; }
+    .header-logo { height: 72px; width: auto; display: block; }
+    .title { font-size: 26px; font-weight: 700; color: #111111; letter-spacing: -0.5px; }
     
     .auth-btn-group { display: flex; gap: 10px; align-items: center; }
     .role-badge { padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; background: #E9ECEF; border: 1px solid #CED4DA; color: #495057; }
@@ -21,10 +23,11 @@
     .btn-logout { padding: 6px 14px; background: #E9ECEF; color: #495057; border: 1px solid #CED4DA; border-radius: 5px; cursor: pointer; display: none; font-size: 12.5px; }
     .btn-logout:hover { background: #DEE2E6; }
     
-    /* 상단 두 영역을 좌우로 나란히 배치하는 그리드 */
-    .top-section-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; }
+    /* [수정] 업데이트 문서와 출퇴근 기록을 하나로 묶어 좌우 2열로 배치하는 메인 상단 패널 */
+    .top-combined-section { background-color: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; padding: 16px 18px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: stretch; }
     
-    .recent-section { background-color: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; padding: 14px 18px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: flex; flex-direction: column; }
+    /* 왼쪽: 최근 업데이트 문서 영역 */
+    .recent-pane { display: flex; flex-direction: column; }
     .recent-header { font-size: 14px; font-weight: bold; color: #D97706; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
     .recent-results { max-height: 140px; overflow-y: auto; flex-grow: 1; }
     .recent-results-list { list-style: none; }
@@ -33,11 +36,12 @@
     .recent-results-list a:hover { text-decoration: underline; }
     .file-date { font-size: 11.5px; color: #64748B; margin-left: 8px; }
     
-    .attendance-section { background-color: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; padding: 14px 18px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: flex; flex-direction: column; }
+    /* 오른쪽: 출퇴근 기록 영역 */
+    .attendance-pane { display: flex; flex-direction: column; border-left: 1px solid #F1F5F9; padding-left: 20px; }
     .attendance-header { font-size: 14px; font-weight: bold; color: #0284C7; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
     
-    /* 출퇴근 버튼들을 2줄 3열 또는 유연하게 배치 */
-    .attendance-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; flex-grow: 1; align-content: center; }
+    /* 출퇴근 버튼 6명을 2열 Grid로 깔끔하게 배치 */
+    .attendance-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; flex-grow: 1; align-content: center; }
     .member-card { background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 6px; padding: 8px 10px; display: flex; align-items: center; justify-content: space-between; }
     
     .member-name { font-size: 13px; font-weight: bold; color: #1E293B; white-space: nowrap; }
@@ -73,9 +77,9 @@
     .link-item a:hover { background-color: #F1F5F9; color: #0F172A; }
     .locked { opacity: 0.3; pointer-events: none; filter: grayscale(1); }
 
-    /* 화면이 좁을 때(태블릿/모바일)는 세로로 정렬되도록 반응형 처리 */
     @media (max-width: 1100px) {
-      .top-section-grid { grid-template-columns: 1fr; }
+      .top-combined-section { grid-template-columns: 1fr; }
+      .attendance-pane { border-left: none; padding-left: 0; border-top: 1px solid #F1F5F9; padding-top: 16px; margin-top: 10px; }
       .dashboard-grid { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
@@ -97,9 +101,9 @@
   </div>
 
   <div class="header">
-    <div>
+    <div class="brand-group">
       <img src="logo.png" alt="다정부부한의원" class="header-logo">
-      <h1 class="title">다정부부한의원 업무 대시보드</h1>
+      <h1 class="title">업무 대시보드</h1>
     </div>
     <div class="auth-btn-group">
       <span id="userStatus" class="role-badge">🔒 01 전직원 접근 가능</span>
@@ -108,16 +112,16 @@
     </div>
   </div>
 
-  <!-- 상단 두 영역을 한 줄(좌우 2분할)로 배치 -->
-  <div class="top-section-grid">
-    <div class="recent-section">
+  <!-- [수정됨] 최근 업데이트된 문서(좌측)와 출퇴근 기록(우측)을 하나의 박스로 합침 -->
+  <div class="top-combined-section">
+    <div class="recent-pane">
       <div class="recent-header">📢 최근 업데이트된 문서 (최근 5일)</div>
       <div id="resultsContent" class="recent-results">
         <p style="color:#64748B; padding:6px 0; font-size:12.5px;">최근 업데이트 문서를 불러오는 중입니다...</p>
       </div>
     </div>
 
-    <div class="attendance-section">
+    <div class="attendance-pane">
       <div class="attendance-header">
         <span>⏰ 출퇴근 기록</span>
         <small style="font-size:11px; color:#64748B; font-weight:normal;">버튼 클릭 시 교대 기록됩니다.</small>
