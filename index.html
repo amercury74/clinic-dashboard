@@ -17,7 +17,7 @@
       background-color: #191919;
       color: #D4D4D4;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      padding: 40px 40px;
+      padding: 40px 30px;
     }
 
     /* 상단 헤더 영역 */
@@ -110,11 +110,11 @@
     .recent-results-list a:hover { text-decoration: underline; }
     .file-date { font-size: 12px; color: #888; margin-left: 8px; }
 
-    /* 4열 레이아웃 grid */
+    /* 5열 레이아웃 grid */
     .dashboard-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
       margin-bottom: 30px;
     }
 
@@ -129,15 +129,16 @@
     .column-header {
       padding: 6px 12px;
       border-radius: 4px;
-      font-size: 17px;
+      font-size: 16px;
       font-weight: 700;
       margin-bottom: 16px;
       display: inline-block;
     }
 
-    /* 4가지 테마 색상 정의 */
+    /* 5가지 테마 색상 정의 */
     .bg-blue { background-color: #162C46; color: #40A9FF; }
     .bg-green { background-color: #1C3829; color: #52C41A; }
+    .bg-teal { background-color: #133B3A; color: #13C2C2; }
     .bg-purple { background-color: #2B213A; color: #B37FEB; }
     .bg-yellow { background-color: #382E1C; color: #FADB14; }
 
@@ -146,16 +147,16 @@
     .link-item a {
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding: 8px 10px;
+      gap: 8px;
+      padding: 8px 8px;
       color: #D4D4D4;
       text-decoration: none;
-      font-size: 14px;
+      font-size: 13.5px;
       border-radius: 4px;
       transition: background-color 0.2s ease;
     }
     .link-item a:hover { background-color: #2F2F2F; color: #FFFFFF; }
-    .item-icon { font-size: 16px; }
+    .item-icon { font-size: 15px; }
 
     /* 권한 미달 섹션 비활성화 */
     .locked { opacity: 0.3; pointer-events: none; filter: grayscale(1); }
@@ -172,10 +173,13 @@
       gap: 10px;
     }
 
-    @media (max-width: 1200px) {
+    @media (max-width: 1400px) {
+      .dashboard-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 900px) {
       .dashboard-grid { grid-template-columns: repeat(2, 1fr); }
     }
-    @media (max-width: 768px) {
+    @media (max-width: 600px) {
       .dashboard-grid { grid-template-columns: 1fr; }
       body { padding: 20px; }
     }
@@ -205,7 +209,7 @@
     </div>
   </div>
 
-  <!-- 메인 대시보드 (4열) -->
+  <!-- 메인 대시보드 (5열) -->
   <div class="dashboard-grid">
 
     <!-- 1열: 접수/치료 (전직원 접근 가능) -->
@@ -214,25 +218,37 @@
       <ul class="link-list">
         <li class="link-item"><a href="https://drive.google.com/drive/folders/1w2C4X7dtGdOdLnBkkGLqWW18C3z5HSQG" target="_blank"><span class="item-icon">📋</span> 초진 / 재진 설문지 양식</a></li>
         <li class="link-item"><a href="https://drive.google.com/drive/folders/1w2C4X7dtGdOdLnBkkGLqWW18C3z5HSQG" target="_blank"><span class="item-icon">💡</span> 질환별 환자 안내문 모음</a></li>
-        <li class="link-item"><a href="https://drive.google.com/drive/folders/1w2C4X7dtGdOdLnBkkGLqWW18C3z5HSQG" target="_blank"><span class="item-icon">💳</span> 수수가 / 데스크 안내 자료</a></li>
+        <li class="link-item"><a href="https://drive.google.com/drive/folders/1w2C4X7dtGdOdLnBkkGLqWW18C3z5HSQG" target="_blank"><span class="item-icon">💳</span> 수가표 / 데스크 안내 자료</a></li>
         <li class="link-item"><a href="https://drive.google.com/drive/folders/1w2C4X7dtGdOdLnBkkGLqWW18C3z5HSQG" target="_blank"><span class="item-icon">🏥</span> 물리치료실 / 침구실 매뉴얼</a></li>
         <li class="link-item"><a href="https://drive.google.com/drive/folders/1w2C4X7dtGdOdLnBkkGLqWW18C3z5HSQG" target="_blank"><span class="item-icon">📞</span> 환자 예약 / 전화 응대 서식</a></li>
       </ul>
     </div>
 
-    <!-- 2열: 매뉴얼 (전직원 & 탕전실 접근 가능) -->
+    <!-- 2열: 매뉴얼 (전직원 접근 가능) -->
     <div class="column" id="colManual">
       <div class="column-header bg-green">📜 매뉴얼</div>
       <ul class="link-list">
         <li class="link-item"><a href="https://drive.google.com/drive/folders/1w2C4X7dtGdOdLnBkkGLqWW18C3z5HSQG" target="_blank"><span class="item-icon">🌿</span> 원내 처방집 및 약재 용량표</a></li>
-        <li class="link-item"><a href="https://drive.google.com/drive/folders/1w2C4X7dtGdOdLnBkkGLqWW18C3z5HSQG" target="_blank"><span class="item-icon">📜</span> 탕전 및 제형별 매뉴얼</a></li>
-        <li class="link-item"><a href="https://drive.google.com/drive/folders/1sYdNudJ3Y1wWMhrvIM39M4hmKLryo9NY" target="_blank"><span class="item-icon">📦</span> 약재 및 소모품 재고 현황</a></li>
         <li class="link-item"><a href="https://drive.google.com/drive/folders/1w2C4X7dtGdOdLnBkkGLqWW18C3z5HSQG" target="_blank"><span class="item-icon">🚦</span> 원내 직원 근무 수칙 (SOP)</a></li>
-        <li class="link-item"><a href="https://drive.google.com/drive/folders/1w2C4X7dtGdOdLnBkkGLqWW18C3z5HSQG" target="_blank"><span class="item-icon">🩺</span> 신규 직원 / 의료진 인수인계서</a></li>
+        <li class="link-item"><a href="https://drive.google.com/drive/folders/1w2C4X7dtGdOdLnBkkGLqWW18C3z5HSQG" target="_blank"><span class="item-icon">🩺</span> 신규 직원 인수인계서</a></li>
+        <li class="link-item"><a href="https://drive.google.com/drive/folders/1w2C4X7dtGdOdLnBkkGLqWW18C3z5HSQG" target="_blank"><span class="item-icon">🧼</span> 원내 위생 / 소독 관리 지침</a></li>
+        <li class="link-item"><a href="https://drive.google.com/drive/folders/1w2C4X7dtGdOdLnBkkGLqWW18C3z5HSQG" target="_blank"><span class="item-icon">🚨</span> 비상시 응대 및 사고 대처 매뉴얼</a></li>
       </ul>
     </div>
 
-    <!-- 3열: 진료 (진료원장 이상 접근 가능) -->
+    <!-- 3열: 탕전실 (탕전실 직원 이상 접근 가능) -->
+    <div class="column locked" id="colDecoction">
+      <div class="column-header bg-teal">🍶 탕전실</div>
+      <ul class="link-list">
+        <li class="link-item"><a href="https://drive.google.com/drive/folders/1sYdNudJ3Y1wWMhrvIM39M4hmKLryo9NY" target="_blank"><span class="item-icon">📜</span> 탕전 및 제형별 조제 매뉴얼</a></li>
+        <li class="link-item"><a href="https://drive.google.com/drive/folders/1sYdNudJ3Y1wWMhrvIM39M4hmKLryo9NY" target="_blank"><span class="item-icon">📦</span> 한약재 및 소모품 재고 현황</a></li>
+        <li class="link-item"><a href="https://drive.google.com/drive/folders/1sYdNudJ3Y1wWMhrvIM39M4hmKLryo9NY" target="_blank"><span class="item-icon">⚙️</span> 탕전 기계 점검 및 청소 기록부</a></li>
+        <li class="link-item"><a href="https://drive.google.com/drive/folders/1sYdNudJ3Y1wWMhrvIM39M4hmKLryo9NY" target="_blank"><span class="item-icon">🚛</span> 약재 입고 / 원외 검수 대장</a></li>
+        <li class="link-item"><a href="https://drive.google.com/drive/folders/1sYdNudJ3Y1wWMhrvIM39M4hmKLryo9NY" target="_blank"><span class="item-icon">🏷️</span> 택배 발송 및 파우치 포장 일지</a></li>
+      </ul>
+    </div>
+
+    <!-- 4열: 진료 (진료원장 이상 접근 가능) -->
     <div class="column locked" id="colDoctor">
       <div class="column-header bg-purple">🩺 진료</div>
       <ul class="link-list">
@@ -244,7 +260,7 @@
       </ul>
     </div>
 
-    <!-- 4열: 경영 (관리자만 접근 가능) -->
+    <!-- 5열: 경영 (관리자만 접근 가능) -->
     <div class="column locked" id="colAdmin">
       <div class="column-header bg-yellow">💰 경영</div>
       <ul class="link-list">
@@ -260,35 +276,52 @@
 
   <!-- 하단 가이드 바 -->
   <div class="footer-bar">
-    <span>⁉️</span> <b>사용 가이드:</b> 접수/치료, 매뉴얼, 진료, 경영 4개 영역으로 구분되어 있으며 로그인 권한에 따라 해당 열이 활성화됩니다.
+    <span>⁉️</span> <b>사용 가이드:</b> 접수/치료, 매뉴얼, 탕전실, 진료, 경영 5개 영역으로 구별되어 있으며 로그인된 구글 계정의 직급 권한에 따라 해당 열이 자동 해제됩니다.
   </div>
 
   <script>
-    const API_KEY = 'AIzaSyBh-jsauSpFXpQ6jBchn-6R4LhozW81woE';
-    const CLIENT_ID = '757943296763-pk2ffb4r879dn44v55qhvmpsi1891hhj.apps.googleusercontent.com';
+    // =========================================================================
+    // ⚙️ [관리자 수정 영역] 직급별 구글 계정 및 기본 인증 키 설정
+    // =========================================================================
+    const CONFIG = {
+      // 1. Google Cloud 연동 정보
+      API_KEY: 'AIzaSyBh-jsauSpFXpQ6jBchn-6R4LhozW81woE',
+      CLIENT_ID: '757943296763-pk2ffb4r879dn44v55qhvmpsi1891hhj.apps.googleusercontent.com',
 
-    // 구글 드라이브 4개 폴더 ID
-    const FOLDERS = {
-      STAFF: '1w2C4X7dtGdOdLnBkkGLqWW18C3z5HSQG',
-      DECOCTION: '1sYdNudJ3Y1wWMhrvIM39M4hmKLryo9NY',
-      DOCTOR: '1caciuhYkxjhIC3zQi6b4ZPLI4huSNFz_',
-      ADMIN: '1HE5f_uSjP8v-lSeO5yTgherYXjt24_yX'
-    };
+      // 2. 직급별 권한 부여 이메일 리스트 (필요 시 주소 추가/삭제 가능)
+      ACCOUNTS: {
+        // 🍶 탕전실 직원 계정 (02 탕전실 폴더까지 접근 허용)
+        DECOCTION: [
+          'samepsl89@gmail.com'
+        ],
+        // 🩺 진료 원장 계정 (03 진료원장 폴더까지 접근 허용)
+        DOCTOR: [
+          'crammy55@naver.com'
+        ],
+        // 💰 관리자 계정 (04 관리자 전체 폴더 접근 허용)
+        ADMIN: [
+          'amercury74@gmail.com',
+          '247stillmoon@gmail.com'
+        ]
+      },
 
-    // 직급별 허용된 이메일 계정 리스트
-    const ACCOUNTS = {
-      DECOCTION: ['samepsl89@gmail.com'],
-      DOCTOR: ['crammy55@naver.com'],
-      ADMIN: ['amercury74@gmail.com', '247stillmoon@gmail.com']
+      // 3. 구글 드라이브 폴더 ID 설정
+      FOLDERS: {
+        STAFF: '1w2C4X7dtGdOdLnBkkGLqWW18C3z5HSQG',     // 01 전직원
+        DECOCTION: '1sYdNudJ3Y1wWMhrvIM39M4hmKLryo9NY', // 02 탕전실
+        DOCTOR: '1caciuhYkxjhIC3zQi6b4ZPLI4huSNFz_',    // 03 진료원장
+        ADMIN: '1HE5f_uSjP8v-lSeO5yTgherYXjt24_yX'     // 04 관리자
+      }
     };
+    // =========================================================================
 
     let tokenClient;
     let accessToken = null;
-    let accessibleFolders = [FOLDERS.STAFF];
+    let accessibleFolders = [CONFIG.FOLDERS.STAFF];
 
     window.onload = function() {
       tokenClient = google.accounts.oauth2.initTokenClient({
-        client_id: CLIENT_ID,
+        client_id: CONFIG.CLIENT_ID,
         scope: 'https://www.googleapis.com/auth/drive.readonly https://www.googleapis.com/auth/userinfo.email',
         callback: async (tokenResponse) => {
           if (tokenResponse.access_token) {
@@ -315,13 +348,14 @@
       if (accessToken) {
         google.accounts.oauth2.revoke(accessToken, () => {
           accessToken = null;
-          accessibleFolders = [FOLDERS.STAFF];
+          accessibleFolders = [CONFIG.FOLDERS.STAFF];
           
           document.getElementById('userStatus').innerText = '🔒 일반 직원 (01 전직원 접근 가능)';
           document.getElementById('userStatus').style.color = '#AAA';
           document.getElementById('btnLogin').style.display = 'inline-block';
           document.getElementById('btnLogout').style.display = 'none';
           
+          document.getElementById('colDecoction').classList.add('locked');
           document.getElementById('colDoctor').classList.add('locked');
           document.getElementById('colAdmin').classList.add('locked');
           
@@ -345,27 +379,35 @@
       }
     }
 
-    // 이메일 주소에 따른 권한 설정 및 화면 갱신
+    // 이메일 주소에 따른 계층별 권한 설정 및 화면 갱신
     function applyRoleByEmail(email) {
       const statusEl = document.getElementById('userStatus');
-      accessibleFolders = [FOLDERS.STAFF];
+      accessibleFolders = [CONFIG.FOLDERS.STAFF];
 
-      if (ACCOUNTS.ADMIN.includes(email)) {
-        accessibleFolders.push(FOLDERS.DECOCTION, FOLDERS.DOCTOR, FOLDERS.ADMIN);
+      // 대소문자 구분을 피하기 위해 등록된 이메일 전체 소문자 변환 후 비교
+      const isAdmin = CONFIG.ACCOUNTS.ADMIN.map(e => e.toLowerCase()).includes(email);
+      const isDoctor = CONFIG.ACCOUNTS.DOCTOR.map(e => e.toLowerCase()).includes(email);
+      const isDecoction = CONFIG.ACCOUNTS.DECOCTION.map(e => e.toLowerCase()).includes(email);
+
+      if (isAdmin) { // 관리자: 탕전실, 진료, 경영 전체 해제
+        accessibleFolders.push(CONFIG.FOLDERS.DECOCTION, CONFIG.FOLDERS.DOCTOR, CONFIG.FOLDERS.ADMIN);
         statusEl.innerText = `🔴 관리자 (${email})`;
         statusEl.style.color = '#FADB14';
+        document.getElementById('colDecoction').classList.remove('locked');
         document.getElementById('colDoctor').classList.remove('locked');
         document.getElementById('colAdmin').classList.remove('locked');
-      } else if (ACCOUNTS.DOCTOR.includes(email)) {
-        accessibleFolders.push(FOLDERS.DECOCTION, FOLDERS.DOCTOR);
+      } else if (isDoctor) { // 진료원장: 탕전실, 진료 해제
+        accessibleFolders.push(CONFIG.FOLDERS.DECOCTION, CONFIG.FOLDERS.DOCTOR);
         statusEl.innerText = `🔵 진료원장 (${email})`;
         statusEl.style.color = '#B37FEB';
+        document.getElementById('colDecoction').classList.remove('locked');
         document.getElementById('colDoctor').classList.remove('locked');
-      } else if (ACCOUNTS.DECOCTION.includes(email)) {
-        accessibleFolders.push(FOLDERS.DECOCTION);
+      } else if (isDecoction) { // 탕전실: 탕전실 해제
+        accessibleFolders.push(CONFIG.FOLDERS.DECOCTION);
         statusEl.innerText = `🟡 탕전실 (${email})`;
-        statusEl.style.color = '#52C41A';
-      } else {
+        statusEl.style.color = '#13C2C2';
+        document.getElementById('colDecoction').classList.remove('locked');
+      } else { // 일반 직원: 접수/치료, 매뉴얼만 허용
         statusEl.innerText = `🟢 일반 직원 (${email})`;
         statusEl.style.color = '#AAA';
       }
@@ -374,7 +416,7 @@
       loadRecentFiles();
     }
 
-    // 최근 변동 파일만 전용 로드하는 함수
+    // 최근 변동 파일 로드 함수
     function loadRecentFiles() {
       const contentEl = document.getElementById('resultsContent');
 
@@ -388,7 +430,7 @@
       if (accessToken) {
         headers = { Authorization: `Bearer ${accessToken}` };
       } else {
-        url += `&key=${API_KEY}`;
+        url += `&key=${CONFIG.API_KEY}`;
       }
 
       fetch(url, { headers })
