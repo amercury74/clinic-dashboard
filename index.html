@@ -187,35 +187,6 @@
       gap: 10px;
     }
 
-    /* 공지사항 팝업 모달 */
-    .modal-overlay {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 10000;
-    }
-
-    .modal-content {
-      background: #202020;
-      border: 1px solid #333;
-      padding: 24px;
-      border-radius: 10px;
-      width: 480px;
-      max-width: 90%;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.6);
-    }
-
-    .modal-header { font-size: 18px; font-weight: bold; color: #FADB14; margin-bottom: 16px; }
-    .notice-list { list-style: none; margin-bottom: 20px; max-height: 200px; overflow-y: auto; }
-    .notice-list li { padding: 8px 0; border-bottom: 1px solid #2A2A2A; font-size: 14px; }
-    .notice-list a { color: #58A6FF; text-decoration: none; }
-    .btn-close {
-      background: #333; color: #FFF; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; float: right;
-    }
-
     @media (max-width: 900px) {
       .dashboard-grid { grid-template-columns: 1fr; }
       body { padding: 20px; }
@@ -241,7 +212,7 @@
   <!-- 실시간 구글 드라이브 통합 검색 -->
   <div class="search-section">
     <div class="search-bar">
-      <input type="text" id="searchInput" placeholder="접근 가능한 문서 실시간 통합 검색 (문서명 입력)..." onkeyup="if(window.event.keyCode==13){searchDrive();}">
+      <input type="text" id="searchInput" placeholder="권한 범위 내 실시간 파일 검색 (문서명 입력)..." onkeyup="if(window.event.keyCode==13){searchDrive();}">
       <button onclick="searchDrive()">검색</button>
     </div>
     <div id="searchResults" class="search-results"></div>
@@ -290,21 +261,12 @@
 
   <!-- 하단 가이드 바 -->
   <div class="footer-bar">
-    <span>⁉️</span> <b>사용 가이드:</b> 로그인된 구글 계정에 따라 접근 가능한 폴더(01~04)의 파일이 자동으로 통합 검색됩니다.
-  </div>
-
-  <!-- 최근 변경 파일 알림 모달 팝업 -->
-  <div id="noticeModal" class="modal-overlay">
-    <div class="modal-content">
-      <div class="modal-header">📢 최근 업데이트된 문서 (최근 7일)</div>
-      <ul id="noticeList" class="notice-list"></ul>
-      <button class="btn-close" onclick="closeModal()">닫기</button>
-    </div>
+    <span>⁉️</span> <b>사용 가이드:</b> 비로그인 시 01 전직원 문서를 바로 검색할 수 있으며, [구글 로그인] 시 권한별 폴더 전체가 실시간 검색됩니다.
   </div>
 
   <script>
-    // ⚙️ [Google Cloud Console 설정] - 발급받은 키 값을 입력하세요.
-    const API_KEY = 'YAQ.Ab8RN6LFoymWdkahNGpC97aYB9EIgRGd1BDqdztRfVRI_qHKSQ';
+    // ⚙️ [전달해주신 API Key & Client ID가 적용되었습니다]
+    const API_KEY = 'AIzaSyBh-jsauSpFXpQ6jBchn-6R4LhozW81woE';
     const CLIENT_ID = '757943296763-pk2ffb4r879dn44v55qhvmpsi1891hhj.apps.googleusercontent.com';
 
     // 구글 드라이브 4개 폴더 ID
@@ -336,14 +298,12 @@
             document.getElementById('btnLogin').style.display = 'none';
             document.getElementById('btnLogout').style.display = 'inline-block';
             
-            // 로그인한 사용자의 이메일 주소 가져오기
+            // 로그인한 사용자의 이메일 주소 확인
             const userEmail = await fetchUserEmail(accessToken);
             applyRoleByEmail(userEmail);
           }
         },
       });
-
-      checkRecentUpdates();
     };
 
     function handleAuthClick() {
@@ -403,19 +363,17 @@
         accessibleFolders.push(FOLDERS.DECOCTION);
         statusEl.innerText = `🟡 탕전실 (${email})`;
         statusEl.style.color = '#52C41A';
-      } else { // 등록된 특수 권한 목록에 없는 일반 직원 구글 계정
+      } else { // 일반 직원 구글 계정
         statusEl.innerText = `🟢 일반 직원 (${email})`;
         statusEl.style.color = '#AAA';
       }
-
-      checkRecentUpdates();
     }
 
-    // 실시간 통합 검색
+    // 실시간 통합 검색 (API Key & OAuth 모두 지원)
     function searchDrive() {
-      const keyword = document.getElementById('searchInput').value;
+      const keyword = document.getElementById('searchInput').value.trim();
       const resultsDiv = document.getElementById('searchResults');
-      if (!keyword.trim()) return;
+      if (!keyword) return;
 
       const folderConditions = accessibleFolders.map(id => `'${id}' in parents`).join(' or ');
       const query = `(${folderConditions}) and name contains '${keyword}' and trashed = false`;
@@ -447,45 +405,8 @@
         .catch(err => {
           console.error(err);
           resultsDiv.style.display = 'block';
-          resultsDiv.innerHTML = '<p style="color:#FF4D4F; padding:10px;">검색 중 오류가 발생했습니다. API 키 설정을 확인해주세요.</p>';
+          resultsDiv.innerHTML = '<p style="color:#FF4D4F; padding:10px;">검색 중 오류가 발생했습니다. 구글 드라이브 폴더의 공개 여부를 확인해주세요.</p>';
         });
-    }
-
-    // 최근 7일 이내 업데이트 문서 알림
-    function checkRecentUpdates() {
-      const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
-      const folderConditions = accessibleFolders.map(id => `'${id}' in parents`).join(' or ');
-      const query = `(${folderConditions}) and modifiedTime > '${sevenDaysAgo}' and trashed = false`;
-
-      let url = `https://www.googleapis.com/drive/v3/files?q=${encodeURIComponent(query)}&orderBy=modifiedTime desc&fields=files(id,name,webViewLink,modifiedTime)`;
-      let headers = {};
-
-      if (accessToken) {
-        headers = { Authorization: `Bearer ${accessToken}` };
-      } else {
-        url += `&key=${API_KEY}`;
-      }
-
-      fetch(url, { headers })
-        .then(res => res.json())
-        .then(data => {
-          if (data.files && data.files.length > 0) {
-            const listEl = document.getElementById('noticeList');
-            listEl.innerHTML = '';
-            data.files.forEach(file => {
-              const dateStr = new Date(file.modifiedTime).toLocaleDateString();
-              const li = document.createElement('li');
-              li.innerHTML = `<a href="${file.webViewLink}" target="_blank">📄 ${file.name}</a> <small style="color:#888;">(${dateStr} 수정)</small>`;
-              listEl.appendChild(li);
-            });
-            document.getElementById('noticeModal').style.display = 'flex';
-          }
-        })
-        .catch(err => console.error('최근 업데이트 확인 실패:', err));
-    }
-
-    function closeModal() {
-      document.getElementById('noticeModal').style.display = 'none';
     }
   </script>
 </body>
