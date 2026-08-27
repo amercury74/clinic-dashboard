@@ -110,7 +110,7 @@
     .recent-results-list a:hover { text-decoration: underline; }
     .file-date { font-size: 12px; color: #888; margin-left: 8px; }
 
-    /* ⏰ 출퇴근 체크 섹션 (단일 버튼화) */
+    /* ⏰ 출퇴근 체크 섹션 */
     .attendance-section {
       background-color: #202020;
       border: 1px solid #2F2F2F;
@@ -162,10 +162,61 @@
     }
     .btn-toggle-att:hover { opacity: 0.8; }
     
-    /* 출근 상태 스타일 (초록색) */
     .state-in { background-color: #1C3829; color: #52C41A; border: 1px solid #275038; }
-    /* 퇴근 상태 스타일 (빨간색/주황색 계열) */
     .state-out { background-color: #381C1C; color: #FF4D4F; border: 1px solid #502727; }
+
+    /* 화면 중앙 정렬 커스텀 모달 스타일 */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      display: none; /* 기본 숨김 */
+    }
+
+    .modal-box {
+      background-color: #222222;
+      border: 1px solid #3A3A3A;
+      border-radius: 10px;
+      padding: 24px 28px;
+      width: 340px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+      text-align: center;
+    }
+
+    .modal-msg {
+      font-size: 15px;
+      color: #FFF;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .modal-btn-group {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .modal-btn {
+      padding: 8px 20px;
+      font-size: 14px;
+      font-weight: bold;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .modal-btn-confirm { background-color: #2383E2; color: #FFF; }
+    .modal-btn-confirm:hover { background-color: #1D6EC0; }
+
+    .modal-btn-cancel { background-color: #333; color: #CCC; border: 1px solid #444; }
+    .modal-btn-cancel:hover { background-color: #444; }
 
     /* 5열 레이아웃 grid */
     .dashboard-grid {
@@ -252,6 +303,17 @@
 </head>
 <body>
 
+  <!-- 화면 중앙 정렬 커스텀 모달 구조 -->
+  <div id="customModal" class="modal-overlay">
+    <div class="modal-box">
+      <div id="modalMsg" class="modal-msg">메시지 내용</div>
+      <div class="modal-btn-group">
+        <button id="modalConfirmBtn" class="modal-btn modal-btn-confirm">확인</button>
+        <button id="modalCancelBtn" class="modal-btn modal-btn-cancel">취소</button>
+      </div>
+    </div>
+  </div>
+
   <!-- 헤더 영역 -->
   <div class="header">
     <div>
@@ -278,7 +340,7 @@
   <div class="attendance-section">
     <div class="attendance-header">
       <span>⏰ 원원 출퇴근 간편 기록</span>
-      <small style="font-size:12px; color:#888; font-weight:normal;">버튼을 누를 때마다 출근과 퇴근이 번갈아 기록됩니다.</small>
+      <small style="font-size:12px; color:#888; font-weight:normal;">버튼을 누를 때마다 출근과 퇴근이 교대로 기록됩니다.</small>
     </div>
     <div class="attendance-grid" id="attendanceGrid">
       <!-- 스크립트에서 직원 목록이 자동 생성됩니다 -->
@@ -364,7 +426,7 @@
 
   <!-- 하단 가이드 바 -->
   <div class="footer-bar">
-    <span>⁉️</span> <b>사용 가이드:</b> 단일 버튼을 누르면 출근/퇴근이 교대로 기록됩니다.
+    <span>⁉️</span> <b>사용 가이드:</b> 중앙 정렬 팝업창을 통해 출근/퇴근을 편리하게 기록할 수 있습니다.
   </div>
 
   <script>
@@ -375,7 +437,7 @@
       API_KEY: 'AIzaSyBh-jsauSpFXpQ6jBchn-6R4LhozW81woE',
       CLIENT_ID: '757943296763-pk2ffb4r879dn44v55qhvmpsi1891hhj.apps.googleusercontent.com',
 
-      // 🔗 기존에 연동 완료하신 Apps Script 웹 앱 URL
+      // 🔗 Apps Script 웹 앱 URL
       ATTENDANCE_WEBAPP_URL: 'https://script.google.com/macros/s/AKfycbxdBleuMNHvZ3ivuwA8ULVNCV6PVQyStcAdHJwTWIpsY9omACy6iPScZRzdu47jdSfRvA/exec',
 
       // 👥 원원 직원 목록
@@ -406,8 +468,6 @@
     let tokenClient;
     let accessToken = null;
     let accessibleFolders = [CONFIG.FOLDERS.STAFF];
-
-    // 직원별 출퇴근 상태 메모리 관리 (기본값: '출근')
     let attendanceStates = {};
 
     window.onload = function() {
@@ -426,7 +486,6 @@
         },
       });
 
-      // 초기 상태 설정 (모두 출근 상태로 시작)
       CONFIG.MEMBERS.forEach(name => {
         attendanceStates[name] = '출근';
       });
@@ -435,7 +494,33 @@
       loadRecentFiles();
     };
 
-    // 출퇴근 멤버 카드 생성 함수 (단일 버튼 토글 방식)
+    // 화면 중앙 정렬 커스텀 확인 팝업창 함수
+    function showCustomConfirm(message, onConfirm) {
+      const modal = document.getElementById('customModal');
+      const msgEl = document.getElementById('modalMsg');
+      const confirmBtn = document.getElementById('modalConfirmBtn');
+      const cancelBtn = document.getElementById('modalCancelBtn');
+
+      msgEl.innerText = message;
+      modal.style.display = 'flex';
+
+      // 기존 이벤트 리스너 제거를 위한 클론 생성
+      const newConfirmBtn = confirmBtn.cloneNode(true);
+      const newCancelBtn = cancelBtn.cloneNode(true);
+      confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
+      cancelBtn.parentNode.replaceChild(newCancelBtn, cancelBtn);
+
+      newConfirmBtn.onclick = function() {
+        modal.style.display = 'none';
+        onConfirm(true);
+      };
+
+      newCancelBtn.onclick = function() {
+        modal.style.display = 'none';
+      };
+    }
+
+    // 출퇴근 멤버 카드 생성 함수
     function renderAttendanceGrid() {
       const grid = document.getElementById('attendanceGrid');
       grid.innerHTML = '';
@@ -454,33 +539,33 @@
       });
     }
 
-    // 단일 버튼 클릭 시 상태 반전 및 구글 시트 전송
+    // 버튼 클릭 시 중앙 정렬 팝업 호출 및 구글 시트 전송
     function toggleAttendance(name) {
       const currentState = attendanceStates[name];
-      // 다음 상태 결정 (출근 -> 퇴근, 퇴근 -> 출근)
       const nextState = currentState === '출근' ? '퇴근' : '출근';
 
-      if (!confirm(`${name} 님 [${currentState}] 처리하시겠습니까?`)) return;
+      showCustomConfirm(`${name} 님 [${currentState}] 처리를 진행하시겠습니까?`, function(confirmed) {
+        if (!confirmed) return;
 
-      const payload = JSON.stringify({ name: name, type: currentState });
+        const payload = JSON.stringify({ name: name, type: currentState });
 
-      fetch(CONFIG.ATTENDANCE_WEBAPP_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: payload
-      })
-      .then(() => {
-        // 상태 업데이트 및 버튼 UI 갱신
-        attendanceStates[name] = nextState;
-        renderAttendanceGrid();
+        fetch(CONFIG.ATTENDANCE_WEBAPP_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: payload
+        })
+        .then(() => {
+          attendanceStates[name] = nextState;
+          renderAttendanceGrid();
 
-        const timeStr = new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
-        alert(`✅ ${name} 님 [${currentState}] 완료되었습니다. (${timeStr})`);
-      })
-      .catch(err => {
-        console.error(err);
-        alert('출퇴근 기록 실패. 인터넷 연결 상태를 확인해주세요.');
+          const timeStr = new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
+          showCustomConfirm(`✅ ${name} 님 [${currentState}] 완료되었습니다. (${timeStr})`, function(){});
+        })
+        .catch(err => {
+          console.error(err);
+          showCustomConfirm('출퇴근 기록 실패. 인터넷 연결 상태를 확인해주세요.', function(){});
+        });
       });
     }
 
@@ -504,7 +589,7 @@
           document.getElementById('colAdmin').classList.add('locked');
           
           loadRecentFiles();
-          alert('로그아웃 되었습니다.');
+          showCustomConfirm('로그아웃 되었습니다.', function(){});
         });
       }
     }
