@@ -31,7 +31,6 @@
     .notice-label { font-size: 13.5px; font-weight: bold; color: #F59E0B; }
     .section-desc { font-size: 11px; color: #9CA3AF; }
     
-    /* 공지 목록 영역 */
     .notice-list-container { display: flex; flex-direction: column; gap: 5px; margin-bottom: 8px; max-height: 105px; overflow-y: auto; }
     .notice-item-row { display: flex; justify-content: space-between; align-items: center; background-color: #121212; border: 1px solid #2C2C2C; border-radius: 5px; padding: 5px 8px; font-size: 12px; }
     .notice-content-wrap { display: flex; align-items: center; gap: 6px; overflow: hidden; }
@@ -41,7 +40,6 @@
     
     .notice-empty { color: #6B7280; font-size: 11.5px; text-align: center; padding: 10px 0; }
     
-    /* 하단 입력 영역 */
     .notice-input-area { display: flex; gap: 6px; align-items: center; border-top: 1px solid #2C2C2C; padding-top: 8px; }
     .notice-input { flex-grow: 1; border: 1px solid #3F3F3F; border-radius: 4px; padding: 5px 8px; font-size: 12.5px; color: #FFFFFF; background-color: #121212; outline: none; }
     .notice-input:focus { background-color: #1E1E1E; border-color: #2563EB; box-shadow: 0 0 0 2px rgba(37,99,235,0.2); }
@@ -133,7 +131,6 @@
     </div>
   </div>
 
-  <!-- 상단 가로 3열 레이아웃 -->
   <div class="top-layout-grid">
     
     <!-- 임시공지 섹션 -->
@@ -145,12 +142,10 @@
             <span class="section-desc">원내 실시간 메모 공간</span>
           </div>
         </div>
-        <!-- 상단 공지 목록 영역 -->
         <div id="noticeListContainer" class="notice-list-container">
           <!-- 동적 생성 -->
         </div>
       </div>
-      <!-- 제일 아래 입력 및 저장 영역 -->
       <div class="notice-input-area">
         <input type="text" id="newNoticeInput" class="notice-input" placeholder="새로운 임시공지 입력...">
         <button class="notice-btn btn-save-row" onclick="addNewNotice()">저장</button>
@@ -183,7 +178,6 @@
 
   </div>
 
-  <!-- 하단 5개 폴더 메뉴 -->
   <div class="dashboard-grid">
     <div class="column" id="colReception">
       <div class="column-header bg-blue">
@@ -308,7 +302,6 @@
       loadRecentFiles();
     };
 
-    // 임시공지 데이터 관리 (LocalStorage 배열 형태 저장)
     function getNotices() {
       const data = localStorage.getItem('clinic_notices_list');
       return data ? JSON.parse(data) : [];
@@ -353,8 +346,6 @@
       }
 
       const notices = getNotices();
-
-      // 기존 항목들의 NEW는 해제하고, 새로 추가되는 항목에만 isNew: true 부여 후 최상단(unshift)에 추가
       notices.forEach(item => item.isNew = false);
       notices.unshift({ text: text, isNew: true });
 
@@ -447,6 +438,11 @@
       showCustomConfirm(`${name} 님 [${actionType}] 처리를 진행하시겠습니까?`, function(confirmed) {
         if (!confirmed) return;
 
+        // [수정] 즉시 화면 상태를 반전시켜 반영 (출근 <-> 퇴근)
+        const nextState = (currentState === '출근') ? '퇴근' : '출근';
+        attendanceStates[name] = nextState;
+        renderAttendanceGrid();
+
         const payload = JSON.stringify({ name: name, type: actionType });
 
         fetch(CONFIG.ATTENDANCE_WEBAPP_URL, {
@@ -456,9 +452,6 @@
           body: payload
         })
         .then(() => {
-          attendanceStates[name] = (currentState === '출근') ? '퇴근' : '출근';
-          renderAttendanceGrid();
-
           const timeStr = new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
           showToast(`✅ ${name} 님 [${actionType}] 완료되었습니다. (${timeStr})`);
         })
