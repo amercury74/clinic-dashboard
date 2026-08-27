@@ -469,7 +469,7 @@
       API_KEY: 'AIzaSyBh-jsauSpFXpQ6jBchn-6R4LhozW81woE',
       CLIENT_ID: '757943296763-pk2ffb4r879dn44v55qhvmpsi1891hhj.apps.googleusercontent.com',
 
-      // 🔗 최신 웹 앱 URL 적용 완료 (2026.08.27 갱신)
+      // 🔗 최신 웹 앱 URL 적용 완료
       ATTENDANCE_WEBAPP_URL: 'https://script.google.com/macros/s/AKfycbwlv7cTa3DVKGsULpbeeFbYDrUOTj6m6BEm4gSwOUNVDfXQ8JklCtTi4_VTMmTVZ6GIhQ/exec',
 
       // 👥 원원 직원 목록
@@ -502,7 +502,7 @@
     let accessibleFolders = [CONFIG.FOLDERS.STAFF];
     let attendanceStates = {};
 
-    window.onload = function() {
+    window.onload = async function() {
       tokenClient = google.accounts.oauth2.initTokenClient({
         client_id: CONFIG.CLIENT_ID,
         scope: 'https://www.googleapis.com/auth/drive.readonly https://www.googleapis.com/auth/userinfo.email',
@@ -518,13 +518,37 @@
         },
       });
 
+      // 기본값 설정 (우선 모두 '출근'으로 초기화)
       CONFIG.MEMBERS.forEach(name => {
         attendanceStates[name] = '출근';
       });
 
+      // 중앙 근태 시트에서 오늘자 기록을 읽어와서 실제 상태 반영
+      await syncAttendanceStatesFromSheet();
+
       renderAttendanceGrid();
       loadRecentFiles();
     };
+
+    // 중앙 근태 기록 시트에서 오늘의 출퇴근 상태를 불러와 동기화하는 함수
+    async function syncAttendanceStatesFromSheet() {
+      try {
+        const url = CONFIG.ATTENDANCE_WEBAPP_URL + "?action=getStatus";
+        const res = await fetch(url);
+        const data = await res.json();
+        
+        if (data && data.statuses) {
+          // data.statuses 예시: { "박지희": "퇴근", "김선미": "출근", ... }
+          for (let name in data.statuses) {
+            if (CONFIG.MEMBERS.includes(name)) {
+              attendanceStates[name] = data.statuses[name];
+            }
+          }
+        }
+      } catch (e) {
+        console.error("상태 동기화 실패:", e);
+      }
+    }
 
     // 중앙 정렬 확인 모달 (처음 누를 때)
     function showCustomConfirm(message, onConfirm) {
@@ -559,7 +583,6 @@
       msgEl.innerText = message;
       toast.style.display = 'flex';
 
-      // 1.2초(1200ms) 후에 자동으로 닫힘
       setTimeout(() => {
         toast.style.display = 'none';
       }, 1200);
@@ -573,12 +596,14 @@
       CONFIG.MEMBERS.forEach(name => {
         const currentState = attendanceStates[name];
         const btnClass = currentState === '출근' ? 'state-in' : 'state-out';
+        // 버튼에 표시될 텍스트: 현재 상태가 '출근'이면 다음 행동인 '출근'을 누르는 것이고, '퇴근' 상태면 '퇴근'을 누르는 형태
+        const btnText = currentState;
 
         const card = document.createElement('div');
         card.className = 'member-card';
         card.innerHTML = `
           <span class="member-name">${name}</span>
-          <button id="btn-${name}" class="btn-toggle-att ${btnClass}" onclick="toggleAttendance('${name}')">${currentState}</button>
+          <button id="btn-${name}" class="btn-toggle-att ${btnClass}" onclick="toggleAttendance('${name}')">${btnText}</button>
         `;
         grid.appendChild(card);
       });
@@ -587,12 +612,13 @@
     // 버튼 클릭 시 처리
     function toggleAttendance(name) {
       const currentState = attendanceStates[name];
-      const nextState = currentState === '출근' ? '퇴근' : '출근';
+      // 만약 현재 '출근' 상태라면 다음은 '퇴근' 기록을 해야 함
+      const actionType = currentState === '출근' ? '출근' : '퇴근';
 
-      showCustomConfirm(`${name} 님 [${currentState}] 처리를 진행하시겠습니까?`, function(confirmed) {
+      showCustomConfirm(`${name} 님 [${actionType}] 처리를 진행하시겠습니까?`, function(confirmed) {
         if (!confirmed) return;
 
-        const payload = JSON.stringify({ name: name, type: currentState });
+        const payload = JSON.stringify({ name: name, type: actionType });
 
         fetch(CONFIG.ATTENDANCE_WEBAPP_URL, {
           method: 'POST',
@@ -601,11 +627,12 @@
           body: payload
         })
         .then(() => {
-          attendanceStates[name] = nextState;
+          // 상태 전환: 출근 -> 퇴근(다음 클릭시 퇴근 처리 대기), 퇴근 -> 출근
+          attendanceStates[name] = (currentState === '출근') ? '퇴근' : '출근';
           renderAttendanceGrid();
 
           const timeStr = new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
-          showToast(`✅ ${name} 님 [${currentState}] 완료되었습니다. (${timeStr})`);
+          showToast(`✅ ${name} 님 [${actionType}] 완료되었습니다. (${timeStr})`);
         })
         .catch(err => {
           console.error(err);
@@ -707,7 +734,7 @@
         .then(data => {
           if (data.files && data.files.length > 0) {
             let html = '<ul class="recent-results-list">';
-            data.files.forEach(file => {
+            data.files.files.forEach(file => {
               const dateStr = new Date(file.modifiedTime).toLocaleDateString();
               html += `<li><span>📄 ${file.name} <span class="file-date">(${dateStr} 수정)</span></span> <a href="${file.webViewLink}" target="_blank">열기 ↗</a></li>`;
             });
