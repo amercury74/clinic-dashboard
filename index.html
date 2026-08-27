@@ -8,87 +8,87 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     
-    /* 3번 스타일: 차분하고 고급스러운 로즈 라벤더 (Muted Rose Lavender) 테마 */
-    body { background-color: #F5F3F7; color: #36323B; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 24px 20px; font-size: 13px; }
+    /* 2번 스타일 (차분하고 어두운 톤업): 딥 스카이 민트 그레이 테마 */
+    body { background-color: #1E292D; color: #D1D8DC; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 24px 20px; font-size: 13px; }
     
     .header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 16px; }
     .brand-group { display: flex; align-items: flex-end; gap: 16px; }
-    .header-logo { height: 90px; width: auto; display: block; }
-    .title { font-size: 34px; font-weight: 700; color: #221E29; letter-spacing: -0.5px; line-height: 1; margin-bottom: 4px; }
+    .header-logo { height: 90px; width: auto; display: block; filter: brightness(0.9); }
+    .title { font-size: 34px; font-weight: 700; color: #F0F4F5; letter-spacing: -0.5px; line-height: 1; margin-bottom: 4px; }
     
     .auth-btn-group { display: flex; gap: 10px; align-items: center; }
-    .role-badge { padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; background: #EAE4F0; border: 1px solid #D4C5E2; color: #51455E; }
-    .btn-login { padding: 6px 14px; background: #8B5CF6; color: #FFF; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 12.5px; }
-    .btn-login:hover { background: #7C3AED; }
-    .btn-logout { padding: 6px 14px; background: #EAE4F0; color: #51455E; border: 1px solid #D4C5E2; border-radius: 5px; cursor: pointer; display: none; font-size: 12.5px; }
-    .btn-logout:hover { background: #DFD5EB; }
+    .role-badge { padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; background: #2A383D; border: 1px solid #3B4D53; color: #A4B5BC; }
+    .btn-login { padding: 6px 14px; background: #0EA5E9; color: #FFF; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 12.5px; }
+    .btn-login:hover { background: #0284C7; }
+    .btn-logout { padding: 6px 14px; background: #2A383D; color: #A4B5BC; border: 1px solid #3B4D53; border-radius: 5px; cursor: pointer; display: none; font-size: 12.5px; }
+    .btn-logout:hover { background: #35464C; }
     
     /* 상단 통합 그리드: 세 영역 한 줄 배치 */
     .top-layout-grid { display: grid; grid-template-columns: 1fr 1fr 1.2fr; gap: 14px; margin-bottom: 16px; align-items: stretch; }
     
     /* 1, 2. 임시공지 칸 스타일 */
-    .notice-board-section { background-color: #FFFFFF; border: 1px solid #E2D9EC; border-radius: 8px; padding: 12px 16px; box-shadow: 0 1px 3px rgba(54,50,59,0.04); display: flex; flex-direction: column; gap: 8px; }
+    .notice-board-section { background-color: #253338; border: 1px solid #35464C; border-radius: 8px; padding: 12px 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.2); display: flex; flex-direction: column; gap: 8px; }
     .section-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
     .section-title-group { display: flex; align-items: baseline; gap: 6px; }
-    .notice-label { font-size: 13.5px; font-weight: bold; color: #7C3AED; }
-    .section-desc { font-size: 11px; color: #7A7285; }
+    .notice-label { font-size: 13.5px; font-weight: bold; color: #38BDF8; }
+    .section-desc { font-size: 11px; color: #8CA0A8; }
     
     .notice-row { display: flex; gap: 6px; align-items: center; margin-bottom: 4px; }
-    .notice-input { flex-grow: 1; border: 1px solid #D4C5E2; border-radius: 4px; padding: 5px 8px; font-size: 12.5px; color: #221E29; background-color: #FAF8FC; outline: none; }
-    .notice-input:focus { background-color: #FFFFFF; border-color: #8B5CF6; box-shadow: 0 0 0 2px rgba(139,92,246,0.1); }
+    .notice-input { flex-grow: 1; border: 1px solid #435860; border-radius: 4px; padding: 5px 8px; font-size: 12.5px; color: #F0F4F5; background-color: #1E292D; outline: none; }
+    .notice-input:focus { background-color: #253338; border-color: #38BDF8; box-shadow: 0 0 0 2px rgba(56,189,248,0.15); }
     .notice-btn { padding: 4px 8px; font-size: 11px; font-weight: bold; border-radius: 4px; border: none; cursor: pointer; white-space: nowrap; }
-    .btn-save-row { background-color: #8B5CF6; color: #FFF; }
-    .btn-save-row:hover { background-color: #7C3AED; }
-    .btn-clear-row { background-color: #EAE4F0; color: #635670; border: 1px solid #D4C5E2; }
-    .btn-clear-row:hover { background-color: #DFD5EB; color: #36323B; }
+    .btn-save-row { background-color: #0EA5E9; color: #FFF; }
+    .btn-save-row:hover { background-color: #0284C7; }
+    .btn-clear-row { background-color: #2F3E44; color: #A4B5BC; border: 1px solid #435860; }
+    .btn-clear-row:hover { background-color: #3C4F56; color: #D1D8DC; }
 
     /* 3. 최근 업데이트된 문서 칸 */
-    .recent-pane { background-color: #FFFFFF; border: 1px solid #E2D9EC; border-radius: 8px; padding: 12px 16px; box-shadow: 0 1px 3px rgba(54,50,59,0.04); display: flex; flex-direction: column; }
+    .recent-pane { background-color: #253338; border: 1px solid #35464C; border-radius: 8px; padding: 12px 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.2); display: flex; flex-direction: column; }
     .recent-results { max-height: 115px; overflow-y: auto; }
     .recent-results-list { list-style: none; }
-    .recent-results-list li { padding: 5px 6px; border-bottom: 1px solid #F3EEF8; display: flex; align-items: center; justify-content: space-between; font-size: 12px; color: #51455E; }
-    .recent-results-list a { color: #8B5CF6; text-decoration: none; font-weight: 500; }
+    .recent-results-list li { padding: 5px 6px; border-bottom: 1px solid #2F3E44; display: flex; align-items: center; justify-content: space-between; font-size: 12px; color: #C2CDD2; }
+    .recent-results-list a { color: #38BDF8; text-decoration: none; font-weight: 500; }
     .recent-results-list a:hover { text-decoration: underline; }
-    .file-date { font-size: 11px; color: #7A7285; margin-left: 6px; }
+    .file-date { font-size: 11px; color: #8CA0A8; margin-left: 6px; }
     
     /* 출퇴근 기록 칸 */
-    .attendance-pane { background-color: #FFFFFF; border: 1px solid #E2D9EC; border-radius: 8px; padding: 12px 16px; box-shadow: 0 1px 3px rgba(54,50,59,0.04); display: flex; flex-direction: column; }
+    .attendance-pane { background-color: #253338; border: 1px solid #35464C; border-radius: 8px; padding: 12px 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.2); display: flex; flex-direction: column; }
     .attendance-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; flex-grow: 1; align-content: center; }
-    .member-card { background-color: #FAF8FC; border: 1px solid #E2D9EC; border-radius: 6px; padding: 6px 10px; display: flex; align-items: center; justify-content: space-between; }
+    .member-card { background-color: #1E292D; border: 1px solid #35464C; border-radius: 6px; padding: 6px 10px; display: flex; align-items: center; justify-content: space-between; }
     
-    .member-name { font-size: 12.5px; font-weight: bold; color: #221E29; white-space: nowrap; }
+    .member-name { font-size: 12.5px; font-weight: bold; color: #F0F4F5; white-space: nowrap; }
     .btn-toggle-att { padding: 3px 8px; font-size: 11px; font-weight: bold; border-radius: 4px; cursor: pointer; border: none; white-space: nowrap; }
-    .state-in { background-color: #E6F4EA; color: #137333; border: 1px solid #CEEAD6; }
-    .state-out { background-color: #FCE8E6; color: #C5221F; border: 1px solid #FAD2CF; }
+    .state-in { background-color: #143828; color: #4ADE80; border: 1px solid #1E5C3E; }
+    .state-out { background-color: #4A2020; color: #F87171; border: 1px solid #6B2E2E; }
     
-    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.3); display: flex; justify-content: center; align-items: center; z-index: 1000; display: none; }
-    .modal-box { background-color: #FFFFFF; border: 1px solid #E2D9EC; border-radius: 8px; padding: 20px 24px; width: 320px; text-align: center; box-shadow: 0 4px 12px rgba(54,50,59,0.1); }
-    .modal-msg { font-size: 14px; color: #221E29; margin-bottom: 16px; line-height: 1.4; }
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); display: flex; justify-content: center; align-items: center; z-index: 1000; display: none; }
+    .modal-box { background-color: #253338; border: 1px solid #435860; border-radius: 8px; padding: 20px 24px; width: 320px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
+    .modal-msg { font-size: 14px; color: #F0F4F5; margin-bottom: 16px; line-height: 1.4; }
     .modal-btn-group { display: flex; gap: 8px; justify-content: center; }
     .modal-btn { padding: 6px 16px; font-size: 13px; font-weight: bold; border-radius: 5px; border: none; cursor: pointer; }
-    .modal-btn-confirm { background-color: #8B5CF6; color: #FFF; }
-    .modal-btn-cancel { background-color: #EAE4F0; color: #51455E; }
+    .modal-btn-confirm { background-color: #0EA5E9; color: #FFF; }
+    .modal-btn-cancel { background-color: #2F3E44; color: #A4B5BC; }
     
-    .toast-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.15); display: flex; justify-content: center; align-items: center; z-index: 1100; display: none; }
-    .toast-box { background-color: #FFFFFF; border: 1px solid #E2D9EC; border-radius: 8px; padding: 16px 24px; text-align: center; font-size: 14px; color: #221E29; font-weight: bold; box-shadow: 0 4px 12px rgba(54,50,59,0.1); }
+    .toast-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.4); display: flex; justify-content: center; align-items: center; z-index: 1100; display: none; }
+    .toast-box { background-color: #253338; border: 1px solid #435860; border-radius: 8px; padding: 16px 24px; text-align: center; font-size: 14px; color: #F0F4F5; font-weight: bold; box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
     
     .dashboard-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 16px; }
-    .column { background-color: #FFFFFF; border-radius: 8px; padding: 12px; border: 1px solid #E2D9EC; box-shadow: 0 1px 3px rgba(54,50,59,0.04); }
+    .column { background-color: #253338; border-radius: 8px; padding: 12px; border: 1px solid #35464C; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
     .column-header { padding: 5px 10px; border-radius: 4px; font-size: 14px; font-weight: 700; margin-bottom: 10px; display: inline-block; width: 100%; }
     .column-header a { color: inherit; text-decoration: none; display: flex; justify-content: space-between; align-items: center; }
-    .column-subtext { font-size: 10.5px; font-weight: normal; opacity: 0.8; margin-top: 2px; display: block; }
+    .column-subtext { font-size: 10.5px; font-weight: normal; opacity: 0.75; margin-top: 2px; display: block; }
     
-    /* 로즈 라벤더 테마에 맞춘 파스텔 톤 메뉴별 컬러 */
-    .bg-blue { background-color: #EBF3F9; color: #0284C7; }
-    .bg-green { background-color: #EEF7EE; color: #166534; }
-    .bg-teal { background-color: #EBF5F3; color: #0F766E; }
-    .bg-purple { background-color: #F3EEF8; color: #7E22CE; }
-    .bg-yellow { background-color: #FBF6EE; color: #B45309; }
+    /* 어두운 스카이 민트 테마에 맞춘 카드 및 폴더 헤더 컬러 */
+    .bg-blue { background-color: #1A3544; color: #38BDF8; }
+    .bg-green { background-color: #19382B; color: #4ADE80; }
+    .bg-teal { background-color: #183B3A; color: #2DD4BF; }
+    .bg-purple { background-color: #2D2342; color: #C084FC; }
+    .bg-yellow { background-color: #38301B; color: #FACC15; }
     
     .link-list { list-style: none; }
     .link-item { margin-bottom: 3px; }
-    .link-item a { display: flex; align-items: center; gap: 6px; padding: 5px 6px; color: #51455E; text-decoration: none; font-size: 12px; border-radius: 4px; }
-    .link-item a:hover { background-color: #F3EEF8; color: #221E29; }
+    .link-item a { display: flex; align-items: center; gap: 6px; padding: 5px 6px; color: #C2CDD2; text-decoration: none; font-size: 12px; border-radius: 4px; }
+    .link-item a:hover { background-color: #2F3E44; color: #F0F4F5; }
     .locked { opacity: 0.3; pointer-events: none; filter: grayscale(1); }
 
     @media (max-width: 1200px) {
@@ -160,12 +160,12 @@
     <div class="recent-pane">
       <div class="section-header-row" style="margin-bottom: 8px;">
         <div class="section-title-group">
-          <span style="font-size: 13.5px; font-weight: bold; color: #8B5CF6;">📢 최근 업데이트된 문서</span>
+          <span style="font-size: 13.5px; font-weight: bold; color: #38BDF8;">📢 최근 업데이트된 문서</span>
           <span class="section-desc">최근 5일간 수정된 파일</span>
         </div>
       </div>
       <div id="resultsContent" class="recent-results">
-        <p style="color:#7A7285; padding:4px 0; font-size:12px;">최근 업데이트 문서를 불러오는 중입니다...</p>
+        <p style="color:#8CA0A8; padding:4px 0; font-size:12px;">최근 업데이트 문서를 불러오는 중입니다...</p>
       </div>
     </div>
 
@@ -173,7 +173,7 @@
     <div class="attendance-pane">
       <div class="section-header-row" style="margin-bottom: 8px;">
         <div class="section-title-group">
-          <span style="font-size: 13.5px; font-weight: bold; color: #8B5CF6;">⏰ 출퇴근 기록</span>
+          <span style="font-size: 13.5px; font-weight: bold; color: #38BDF8;">⏰ 출퇴근 기록</span>
           <span class="section-desc">터치 시 출/퇴근 교대 기록</span>
         </div>
       </div>
@@ -448,7 +448,7 @@
           accessToken = null;
           accessibleFolders = [CONFIG.FOLDERS.STAFF];
           document.getElementById('userStatus').innerText = '🔒 01 전직원 접근 가능';
-          document.getElementById('userStatus').style.color = '#51455E';
+          document.getElementById('userStatus').style.color = '#A4B5BC';
           document.getElementById('btnLogin').style.display = 'inline-block';
           document.getElementById('btnLogout').style.display = 'none';
           loadRecentFiles();
@@ -506,11 +506,11 @@
             html += '</ul>';
             contentEl.innerHTML = html;
           } else {
-            contentEl.innerHTML = '<p style="color:#7A7285; padding:4px 0; font-size:12px;">최근 5일간 업데이트된 문서가 없습니다.</p>';
+            contentEl.innerHTML = '<p style="color:#8CA0A8; padding:4px 0; font-size:12px;">최근 5일간 업데이트된 문서가 없습니다.</p>';
           }
         })
         .catch(err => {
-          contentEl.innerHTML = '<p style="color:#C5221F; padding:4px 0; font-size:12px;">문서를 불러오는 도중 오류가 발생했습니다.</p>';
+          contentEl.innerHTML = '<p style="color:#F87171; padding:4px 0; font-size:12px;">문서를 불러오는 도중 오류가 발생했습니다.</p>';
         });
     }
   </script>
