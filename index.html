@@ -8,62 +8,64 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     
-    /* 전체적으로 폰트 사이즈를 조금씩 축소 */
-    body { background-color: #191919; color: #D4D4D4; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 30px 24px; font-size: 13.5px; }
+    /* 화사한 흰색 바탕 및 라이트 모드 스타일 */
+    body { background-color: #F8F9FA; color: #333333; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 30px 24px; font-size: 13.5px; }
     
     .header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 24px; }
-    .header-logo { height: 42px; width: auto; margin-bottom: 6px; display: block; }
-    .title { font-size: 26px; font-weight: 700; color: #FFFFFF; }
+    .header-logo { height: 48px; width: auto; margin-bottom: 6px; display: block; }
+    .title { font-size: 26px; font-weight: 700; color: #111111; }
     
     .auth-btn-group { display: flex; gap: 10px; align-items: center; }
-    .role-badge { padding: 5px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; background: #2A2A2A; border: 1px solid #3A3A3A; color: #AAA; }
+    .role-badge { padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; background: #E9ECEF; border: 1px solid #CED4DA; color: #495057; }
     .btn-login { padding: 6px 14px; background: #2383E2; color: #FFF; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 12.5px; }
     .btn-login:hover { background: #1D6EC0; }
-    .btn-logout { padding: 6px 14px; background: #333; color: #CCC; border: 1px solid #444; border-radius: 5px; cursor: pointer; display: none; font-size: 12.5px; }
+    .btn-logout { padding: 6px 14px; background: #E9ECEF; color: #495057; border: 1px solid #CED4DA; border-radius: 5px; cursor: pointer; display: none; font-size: 12.5px; }
+    .btn-logout:hover { background: #DEE2E6; }
     
-    .recent-section { background-color: #202020; border: 1px solid #2F2F2F; border-radius: 6px; padding: 14px 18px; margin-bottom: 20px; }
-    .recent-header { font-size: 14px; font-weight: bold; color: #FADB14; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+    .recent-section { background-color: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; padding: 14px 18px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+    .recent-header { font-size: 14px; font-weight: bold; color: #D97706; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
     .recent-results { max-height: 150px; overflow-y: auto; }
     .recent-results-list { list-style: none; }
-    .recent-results-list li { padding: 6px 8px; border-bottom: 1px solid #2A2A2A; display: flex; align-items: center; justify-content: space-between; font-size: 13px; }
-    .recent-results-list a { color: #58A6FF; text-decoration: none; font-weight: 500; }
-    .file-date { font-size: 11.5px; color: #888; margin-left: 8px; }
+    .recent-results-list li { padding: 6px 8px; border-bottom: 1px solid #F1F5F9; display: flex; align-items: center; justify-content: space-between; font-size: 13px; color: #334155; }
+    .recent-results-list a { color: #2563EB; text-decoration: none; font-weight: 500; }
+    .recent-results-list a:hover { text-decoration: underline; }
+    .file-date { font-size: 11.5px; color: #64748B; margin-left: 8px; }
     
-    .attendance-section { background-color: #202020; border: 1px solid #2F2F2F; border-radius: 6px; padding: 16px; margin-bottom: 24px; }
-    .attendance-header { font-size: 14.5px; font-weight: bold; color: #40A9FF; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
+    .attendance-section { background-color: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; padding: 16px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+    .attendance-header { font-size: 14.5px; font-weight: bold; color: #0284C7; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
     .attendance-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; }
-    .member-card { background-color: #191919; border: 1px solid #333; border-radius: 5px; padding: 10px 14px; display: flex; align-items: center; justify-content: space-between; }
-    .member-name { font-size: 14px; font-weight: bold; color: #FFF; }
+    .member-card { background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 6px; padding: 10px 14px; display: flex; align-items: center; justify-content: space-between; }
+    .member-name { font-size: 14px; font-weight: bold; color: #1E293B; }
     .btn-toggle-att { padding: 5px 12px; font-size: 12px; font-weight: bold; border-radius: 4px; cursor: pointer; border: none; }
-    .state-in { background-color: #1C3829; color: #52C41A; border: 1px solid #275038; }
-    .state-out { background-color: #381C1C; color: #FF4D4F; border: 1px solid #502727; }
+    .state-in { background-color: #DCFCE7; color: #15803D; border: 1px solid #BBF7D0; }
+    .state-out { background-color: #FEE2E2; color: #B91C1C; border: 1px solid #FECACA; }
     
-    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); display: flex; justify-content: center; align-items: center; z-index: 1000; display: none; }
-    .modal-box { background-color: #222222; border: 1px solid #3A3A3A; border-radius: 8px; padding: 20px 24px; width: 320px; text-align: center; }
-    .modal-msg { font-size: 14px; color: #FFF; margin-bottom: 16px; line-height: 1.4; }
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.4); display: flex; justify-content: center; align-items: center; z-index: 1000; display: none; }
+    .modal-box { background-color: #FFFFFF; border: 1px solid #CBD5E1; border-radius: 8px; padding: 20px 24px; width: 320px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .modal-msg { font-size: 14px; color: #1E293B; margin-bottom: 16px; line-height: 1.4; }
     .modal-btn-group { display: flex; gap: 8px; justify-content: center; }
     .modal-btn { padding: 6px 16px; font-size: 13px; font-weight: bold; border-radius: 5px; border: none; cursor: pointer; }
-    .modal-btn-confirm { background-color: #2383E2; color: #FFF; }
-    .modal-btn-cancel { background-color: #333; color: #CCC; border: 1px solid #444; }
+    .modal-btn-confirm { background-color: #2563EB; color: #FFF; }
+    .modal-btn-cancel { background-color: #E2E8F0; color: #475569; }
     
-    .toast-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.4); display: flex; justify-content: center; align-items: center; z-index: 1100; display: none; }
-    .toast-box { background-color: #222222; border: 1px solid #4A4A4A; border-radius: 8px; padding: 16px 24px; text-align: center; font-size: 14px; color: #FFF; font-weight: bold; }
+    .toast-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.2); display: flex; justify-content: center; align-items: center; z-index: 1100; display: none; }
+    .toast-box { background-color: #FFFFFF; border: 1px solid #CBD5E1; border-radius: 8px; padding: 16px 24px; text-align: center; font-size: 14px; color: #1E293B; font-weight: bold; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
     
     .dashboard-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-bottom: 20px; }
-    .column { background-color: #202020; border-radius: 6px; padding: 14px; border: 1px solid #2F2F2F; }
+    .column { background-color: #FFFFFF; border-radius: 8px; padding: 14px; border: 1px solid #E2E8F0; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
     .column-header { padding: 5px 10px; border-radius: 4px; font-size: 14.5px; font-weight: 700; margin-bottom: 12px; display: inline-block; }
     .column-header a { color: inherit; text-decoration: none; display: flex; align-items: center; gap: 4px; }
     
-    .bg-blue { background-color: #162C46; color: #40A9FF; }
-    .bg-green { background-color: #1C3829; color: #52C41A; }
-    .bg-teal { background-color: #133B3A; color: #13C2C2; }
-    .bg-purple { background-color: #2B213A; color: #B37FEB; }
-    .bg-yellow { background-color: #382E1C; color: #FADB14; }
+    .bg-blue { background-color: #E0F2FE; color: #0369A1; }
+    .bg-green { background-color: #DCFCE7; color: #15803D; }
+    .bg-teal { background-color: #CCFBF1; color: #0F766E; }
+    .bg-purple { background-color: #F3E8FF; color: #7E22CE; }
+    .bg-yellow { background-color: #FEF9C3; color: #A16207; }
     
     .link-list { list-style: none; }
     .link-item { margin-bottom: 3px; }
-    .link-item a { display: flex; align-items: center; gap: 6px; padding: 6px 6px; color: #D4D4D4; text-decoration: none; font-size: 12.5px; border-radius: 4px; }
-    .link-item a:hover { background-color: #2F2F2F; color: #FFFFFF; }
+    .link-item a { display: flex; align-items: center; gap: 6px; padding: 6px 6px; color: #334155; text-decoration: none; font-size: 12.5px; border-radius: 4px; }
+    .link-item a:hover { background-color: #F1F5F9; color: #0F172A; }
     .locked { opacity: 0.3; pointer-events: none; filter: grayscale(1); }
   </style>
 </head>
@@ -98,14 +100,14 @@
   <div class="recent-section">
     <div class="recent-header">📢 최근 업데이트된 문서 (최근 5일)</div>
     <div id="resultsContent" class="recent-results">
-      <p style="color:#888; padding:6px 0; font-size:12.5px;">최근 업데이트 문서를 불러오는 중입니다...</p>
+      <p style="color:#64748B; padding:6px 0; font-size:12.5px;">최근 업데이트 문서를 불러오는 중입니다...</p>
     </div>
   </div>
 
   <div class="attendance-section">
     <div class="attendance-header">
       <span>⏰ 출퇴근 기록</span>
-      <small style="font-size:11.5px; color:#888; font-weight:normal;">버튼을 누를 때마다 출근과 퇴근이 교대로 기록됩니다.</small>
+      <small style="font-size:11.5px; color:#64748B; font-weight:normal;">버튼을 누를 때마다 출근과 퇴근이 교대로 기록됩니다.</small>
     </div>
     <div class="attendance-grid" id="attendanceGrid"></div>
   </div>
@@ -309,7 +311,7 @@
           accessToken = null;
           accessibleFolders = [CONFIG.FOLDERS.STAFF];
           document.getElementById('userStatus').innerText = '🔒 01 전직원 접근 가능';
-          document.getElementById('userStatus').style.color = '#AAA';
+          document.getElementById('userStatus').style.color = '#495057';
           document.getElementById('btnLogin').style.display = 'inline-block';
           document.getElementById('btnLogout').style.display = 'none';
           loadRecentFiles();
@@ -336,15 +338,12 @@
       if (isAdmin) {
         accessibleFolders.push(CONFIG.FOLDERS.DECOCTION, CONFIG.FOLDERS.DOCTOR, CONFIG.FOLDERS.ADMIN);
         statusEl.innerText = `🔴 관리자`;
-        statusEl.style.color = '#FADB14';
       } else if (isDoctor) {
         accessibleFolders.push(CONFIG.FOLDERS.DECOCTION, CONFIG.FOLDERS.DOCTOR);
         statusEl.innerText = `🔵 진료원장`;
-        statusEl.style.color = '#B37FEB';
       } else if (isDecoction) {
         accessibleFolders.push(CONFIG.FOLDERS.DECOCTION);
         statusEl.innerText = `🟡 탕전실`;
-        statusEl.style.color = '#13C2C2';
       }
       loadRecentFiles();
     }
@@ -370,11 +369,11 @@
             html += '</ul>';
             contentEl.innerHTML = html;
           } else {
-            contentEl.innerHTML = '<p style="color:#9B9B9B; padding:6px 0; font-size:12.5px;">최근 5일간 업데이트된 문서가 없습니다.</p>';
+            contentEl.innerHTML = '<p style="color:#64748B; padding:6px 0; font-size:12.5px;">최근 5일간 업데이트된 문서가 없습니다.</p>';
           }
         })
         .catch(err => {
-          contentEl.innerHTML = '<p style="color:#FF4D4F; padding:6px 0; font-size:12.5px;">문서를 불러오는 도중 오류가 발생했습니다.</p>';
+          contentEl.innerHTML = '<p style="color:#DC2626; padding:6px 0; font-size:12.5px;">문서를 불러오는 도중 오류가 발생했습니다.</p>';
         });
     }
   </script>
