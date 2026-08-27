@@ -377,8 +377,8 @@
       API_KEY: 'AIzaSyBh-jsauSpFXpQ6jBchn-6R4LhozW81woE',
       CLIENT_ID: '757943296763-pk2ffb4r879dn44v55qhvmpsi1891hhj.apps.googleusercontent.com',
 
-      // 🔗 Apps Script 웹 앱 URL
-      ATTENDANCE_WEBAPP_URL: 'https://script.google.com/macros/s/AKfycbyCWWplP7RfMixyLYH31PvpafC6K0KLxueWCpJJGH8MTexHZIMwL_2nyuBZNBS3n-H2Tg/exec',
+      // 🔗 새 발급된 Apps Script 웹 앱 URL
+      ATTENDANCE_WEBAPP_URL: 'https://script.google.com/macros/s/AKfycbzbUhGWJnRpUlHnyJyp8ln2_tfI8r6cBVaWXg1h_bHoXoWKp2ngnPp2OjYHAP9uv7ppjg/exec',
 
       // 👥 원원 직원 목록
       MEMBERS: [
@@ -448,7 +448,7 @@
       });
     }
 
-    // 구글 시트로 [일자, 이름, 구분, 시각] 정보 전송
+    // 구글 시트로 [일자, 이름, 구분, 시각] 정보 전송 (CORS 차단 방지 적용)
     function recordAttendance(name, type) {
       if (!CONFIG.ATTENDANCE_WEBAPP_URL || CONFIG.ATTENDANCE_WEBAPP_URL.includes('YOUR_APPS_SCRIPT')) {
         alert('Apps Script 웹 앱 URL이 설정되지 않았습니다. CONFIG 영역에 URL을 입력해주세요.');
@@ -457,13 +457,12 @@
 
       if (!confirm(`${name} 님 [${type}] 체크를 진행하시겠습니까?`)) return;
 
-      const payload = { name: name, type: type };
+      const payload = JSON.stringify({ name: name, type: type });
 
       fetch(CONFIG.ATTENDANCE_WEBAPP_URL, {
         method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: payload
       })
       .then(() => {
         const timeStr = new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
