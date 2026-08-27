@@ -110,7 +110,7 @@
     .recent-results-list a:hover { text-decoration: underline; }
     .file-date { font-size: 12px; color: #888; margin-left: 8px; }
 
-    /* ⏰ 출퇴근 체크 섹션 */
+    /* ⏰ 출퇴근 체크 섹션 (단일 버튼화) */
     .attendance-section {
       background-color: #202020;
       border: 1px solid #2F2F2F;
@@ -151,23 +151,21 @@
       color: #FFF;
     }
 
-    .btn-group-att {
-      display: flex;
-      gap: 6px;
-    }
-
-    .btn-att {
-      padding: 6px 10px;
-      font-size: 12px;
+    .btn-toggle-att {
+      padding: 6px 14px;
+      font-size: 13px;
       font-weight: bold;
-      border: none;
       border-radius: 4px;
       cursor: pointer;
       transition: opacity 0.2s;
+      border: none;
     }
-    .btn-att:hover { opacity: 0.8; }
-    .btn-in { background-color: #1C3829; color: #52C41A; border: 1px solid #275038; }
-    .btn-out { background-color: #381C1C; color: #FF4D4F; border: 1px solid #502727; }
+    .btn-toggle-att:hover { opacity: 0.8; }
+    
+    /* 출근 상태 스타일 (초록색) */
+    .state-in { background-color: #1C3829; color: #52C41A; border: 1px solid #275038; }
+    /* 퇴근 상태 스타일 (빨간색/주황색 계열) */
+    .state-out { background-color: #381C1C; color: #FF4D4F; border: 1px solid #502727; }
 
     /* 5열 레이아웃 grid */
     .dashboard-grid {
@@ -280,7 +278,7 @@
   <div class="attendance-section">
     <div class="attendance-header">
       <span>⏰ 원원 출퇴근 간편 기록</span>
-      <small style="font-size:12px; color:#888; font-weight:normal;">이름 옆 출근/퇴근 버튼을 누르면 구글 시트에 일자, 이름, 구분, 시각이 기록됩니다.</small>
+      <small style="font-size:12px; color:#888; font-weight:normal;">버튼을 누를 때마다 출근과 퇴근이 번갈아 기록됩니다.</small>
     </div>
     <div class="attendance-grid" id="attendanceGrid">
       <!-- 스크립트에서 직원 목록이 자동 생성됩니다 -->
@@ -366,7 +364,7 @@
 
   <!-- 하단 가이드 바 -->
   <div class="footer-bar">
-    <span>⁉️</span> <b>사용 가이드:</b> 출퇴근 체크 시 일자, 이름, 구분, 시각 정보가 구글 시트에 실시간 반영됩니다.
+    <span>⁉️</span> <b>사용 가이드:</b> 단일 버튼을 누르면 출근/퇴근이 교대로 기록됩니다.
   </div>
 
   <script>
@@ -377,7 +375,7 @@
       API_KEY: 'AIzaSyBh-jsauSpFXpQ6jBchn-6R4LhozW81woE',
       CLIENT_ID: '757943296763-pk2ffb4r879dn44v55qhvmpsi1891hhj.apps.googleusercontent.com',
 
-      // 🔗 방금 발급해주신 최신 Apps Script 웹 앱 URL
+      // 🔗 기존에 연동 완료하신 Apps Script 웹 앱 URL
       ATTENDANCE_WEBAPP_URL: 'https://script.google.com/macros/s/AKfycbxdBleuMNHvZ3ivuwA8ULVNCV6PVQyStcAdHJwTWIpsY9omACy6iPScZRzdu47jdSfRvA/exec',
 
       // 👥 원원 직원 목록
@@ -409,6 +407,9 @@
     let accessToken = null;
     let accessibleFolders = [CONFIG.FOLDERS.STAFF];
 
+    // 직원별 출퇴근 상태 메모리 관리 (기본값: '출근')
+    let attendanceStates = {};
+
     window.onload = function() {
       tokenClient = google.accounts.oauth2.initTokenClient({
         client_id: CONFIG.CLIENT_ID,
@@ -425,39 +426,43 @@
         },
       });
 
+      // 초기 상태 설정 (모두 출근 상태로 시작)
+      CONFIG.MEMBERS.forEach(name => {
+        attendanceStates[name] = '출근';
+      });
+
       renderAttendanceGrid();
       loadRecentFiles();
     };
 
-    // 출퇴근 멤버 카드 생성 함수
+    // 출퇴근 멤버 카드 생성 함수 (단일 버튼 토글 방식)
     function renderAttendanceGrid() {
       const grid = document.getElementById('attendanceGrid');
       grid.innerHTML = '';
 
       CONFIG.MEMBERS.forEach(name => {
+        const currentState = attendanceStates[name];
+        const btnClass = currentState === '출근' ? 'state-in' : 'state-out';
+
         const card = document.createElement('div');
         card.className = 'member-card';
         card.innerHTML = `
           <span class="member-name">${name}</span>
-          <div class="btn-group-att">
-            <button class="btn-att btn-in" onclick="recordAttendance('${name}', '출근')">출근</button>
-            <button class="btn-att btn-out" onclick="recordAttendance('${name}', '퇴근')">퇴근</button>
-          </div>
+          <button id="btn-${name}" class="btn-toggle-att ${btnClass}" onclick="toggleAttendance('${name}')">${currentState}</button>
         `;
         grid.appendChild(card);
       });
     }
 
-    // 구글 시트로 [일자, 이름, 구분, 시각] 정보 전송 (CORS 차단 방지 no-cors 적용)
-    function recordAttendance(name, type) {
-      if (!CONFIG.ATTENDANCE_WEBAPP_URL || CONFIG.ATTENDANCE_WEBAPP_URL.includes('YOUR_APPS_SCRIPT')) {
-        alert('Apps Script 웹 앱 URL이 설정되지 않았습니다.');
-        return;
-      }
+    // 단일 버튼 클릭 시 상태 반전 및 구글 시트 전송
+    function toggleAttendance(name) {
+      const currentState = attendanceStates[name];
+      // 다음 상태 결정 (출근 -> 퇴근, 퇴근 -> 출근)
+      const nextState = currentState === '출근' ? '퇴근' : '출근';
 
-      if (!confirm(`${name} 님 [${type}] 체크를 진행하시겠습니까?`)) return;
+      if (!confirm(`${name} 님 [${currentState}] 처리하시겠습니까?`)) return;
 
-      const payload = JSON.stringify({ name: name, type: type });
+      const payload = JSON.stringify({ name: name, type: currentState });
 
       fetch(CONFIG.ATTENDANCE_WEBAPP_URL, {
         method: 'POST',
@@ -466,8 +471,12 @@
         body: payload
       })
       .then(() => {
+        // 상태 업데이트 및 버튼 UI 갱신
+        attendanceStates[name] = nextState;
+        renderAttendanceGrid();
+
         const timeStr = new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
-        alert(`✅ ${name} 님 [${type}] 체크가 완료되었습니다. (${timeStr})`);
+        alert(`✅ ${name} 님 [${currentState}] 완료되었습니다. (${timeStr})`);
       })
       .catch(err => {
         console.error(err);
