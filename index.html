@@ -8,87 +8,87 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     
-    /* 2번 스타일 (차분하고 어두운 톤업): 딥 스카이 민트 그레이 테마 */
-    body { background-color: #1E292D; color: #D1D8DC; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 24px 20px; font-size: 13px; }
+    /* 1번 스타일 (차분하고 어두운 톤다운): 다크 코지 크림 테마 */
+    body { background-color: #242220; color: #D4CEC5; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 24px 20px; font-size: 13px; }
     
     .header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 16px; }
     .brand-group { display: flex; align-items: flex-end; gap: 16px; }
     .header-logo { height: 90px; width: auto; display: block; filter: brightness(0.9); }
-    .title { font-size: 34px; font-weight: 700; color: #F0F4F5; letter-spacing: -0.5px; line-height: 1; margin-bottom: 4px; }
+    .title { font-size: 34px; font-weight: 700; color: #F5F2EB; letter-spacing: -0.5px; line-height: 1; margin-bottom: 4px; }
     
     .auth-btn-group { display: flex; gap: 10px; align-items: center; }
-    .role-badge { padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; background: #2A383D; border: 1px solid #3B4D53; color: #A4B5BC; }
-    .btn-login { padding: 6px 14px; background: #0EA5E9; color: #FFF; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 12.5px; }
-    .btn-login:hover { background: #0284C7; }
-    .btn-logout { padding: 6px 14px; background: #2A383D; color: #A4B5BC; border: 1px solid #3B4D53; border-radius: 5px; cursor: pointer; display: none; font-size: 12.5px; }
-    .btn-logout:hover { background: #35464C; }
+    .role-badge { padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; background: #332F2C; border: 1px solid #48423D; color: #B0A79A; }
+    .btn-login { padding: 6px 14px; background: #D97706; color: #FFF; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 12.5px; }
+    .btn-login:hover { background: #B45309; }
+    .btn-logout { padding: 6px 14px; background: #332F2C; color: #B0A79A; border: 1px solid #48423D; border-radius: 5px; cursor: pointer; display: none; font-size: 12.5px; }
+    .btn-logout:hover { background: #3D3834; }
     
     /* 상단 통합 그리드: 세 영역 한 줄 배치 */
     .top-layout-grid { display: grid; grid-template-columns: 1fr 1fr 1.2fr; gap: 14px; margin-bottom: 16px; align-items: stretch; }
     
     /* 1, 2. 임시공지 칸 스타일 */
-    .notice-board-section { background-color: #253338; border: 1px solid #35464C; border-radius: 8px; padding: 12px 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.2); display: flex; flex-direction: column; gap: 8px; }
+    .notice-board-section { background-color: #2D2926; border: 1px solid #423C36; border-radius: 8px; padding: 12px 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.2); display: flex; flex-direction: column; gap: 8px; }
     .section-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
     .section-title-group { display: flex; align-items: baseline; gap: 6px; }
-    .notice-label { font-size: 13.5px; font-weight: bold; color: #38BDF8; }
-    .section-desc { font-size: 11px; color: #8CA0A8; }
+    .notice-label { font-size: 13.5px; font-weight: bold; color: #F59E0B; }
+    .section-desc { font-size: 11px; color: #9E9487; }
     
     .notice-row { display: flex; gap: 6px; align-items: center; margin-bottom: 4px; }
-    .notice-input { flex-grow: 1; border: 1px solid #435860; border-radius: 4px; padding: 5px 8px; font-size: 12.5px; color: #F0F4F5; background-color: #1E292D; outline: none; }
-    .notice-input:focus { background-color: #253338; border-color: #38BDF8; box-shadow: 0 0 0 2px rgba(56,189,248,0.15); }
+    .notice-input { flex-grow: 1; border: 1px solid #524A42; border-radius: 4px; padding: 5px 8px; font-size: 12.5px; color: #F5F2EB; background-color: #242220; outline: none; }
+    .notice-input:focus { background-color: #2D2926; border-color: #F59E0B; box-shadow: 0 0 0 2px rgba(245,158,11,0.15); }
     .notice-btn { padding: 4px 8px; font-size: 11px; font-weight: bold; border-radius: 4px; border: none; cursor: pointer; white-space: nowrap; }
-    .btn-save-row { background-color: #0EA5E9; color: #FFF; }
-    .btn-save-row:hover { background-color: #0284C7; }
-    .btn-clear-row { background-color: #2F3E44; color: #A4B5BC; border: 1px solid #435860; }
-    .btn-clear-row:hover { background-color: #3C4F56; color: #D1D8DC; }
+    .btn-save-row { background-color: #D97706; color: #FFF; }
+    .btn-save-row:hover { background-color: #B45309; }
+    .btn-clear-row { background-color: #38332F; color: #B0A79A; border: 1px solid #524A42; }
+    .btn-clear-row:hover { background-color: #443E3A; color: #D4CEC5; }
 
     /* 3. 최근 업데이트된 문서 칸 */
-    .recent-pane { background-color: #253338; border: 1px solid #35464C; border-radius: 8px; padding: 12px 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.2); display: flex; flex-direction: column; }
+    .recent-pane { background-color: #2D2926; border: 1px solid #423C36; border-radius: 8px; padding: 12px 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.2); display: flex; flex-direction: column; }
     .recent-results { max-height: 115px; overflow-y: auto; }
     .recent-results-list { list-style: none; }
-    .recent-results-list li { padding: 5px 6px; border-bottom: 1px solid #2F3E44; display: flex; align-items: center; justify-content: space-between; font-size: 12px; color: #C2CDD2; }
+    .recent-results-list li { padding: 5px 6px; border-bottom: 1px solid #38332F; display: flex; align-items: center; justify-content: space-between; font-size: 12px; color: #C5BCB0; }
     .recent-results-list a { color: #38BDF8; text-decoration: none; font-weight: 500; }
     .recent-results-list a:hover { text-decoration: underline; }
-    .file-date { font-size: 11px; color: #8CA0A8; margin-left: 6px; }
+    .file-date { font-size: 11px; color: #9E9487; margin-left: 6px; }
     
     /* 출퇴근 기록 칸 */
-    .attendance-pane { background-color: #253338; border: 1px solid #35464C; border-radius: 8px; padding: 12px 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.2); display: flex; flex-direction: column; }
+    .attendance-pane { background-color: #2D2926; border: 1px solid #423C36; border-radius: 8px; padding: 12px 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.2); display: flex; flex-direction: column; }
     .attendance-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; flex-grow: 1; align-content: center; }
-    .member-card { background-color: #1E292D; border: 1px solid #35464C; border-radius: 6px; padding: 6px 10px; display: flex; align-items: center; justify-content: space-between; }
+    .member-card { background-color: #242220; border: 1px solid #423C36; border-radius: 6px; padding: 6px 10px; display: flex; align-items: center; justify-content: space-between; }
     
-    .member-name { font-size: 12.5px; font-weight: bold; color: #F0F4F5; white-space: nowrap; }
+    .member-name { font-size: 12.5px; font-weight: bold; color: #F5F2EB; white-space: nowrap; }
     .btn-toggle-att { padding: 3px 8px; font-size: 11px; font-weight: bold; border-radius: 4px; cursor: pointer; border: none; white-space: nowrap; }
     .state-in { background-color: #143828; color: #4ADE80; border: 1px solid #1E5C3E; }
     .state-out { background-color: #4A2020; color: #F87171; border: 1px solid #6B2E2E; }
     
     .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); display: flex; justify-content: center; align-items: center; z-index: 1000; display: none; }
-    .modal-box { background-color: #253338; border: 1px solid #435860; border-radius: 8px; padding: 20px 24px; width: 320px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
-    .modal-msg { font-size: 14px; color: #F0F4F5; margin-bottom: 16px; line-height: 1.4; }
+    .modal-box { background-color: #2D2926; border: 1px solid #524A42; border-radius: 8px; padding: 20px 24px; width: 320px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
+    .modal-msg { font-size: 14px; color: #F5F2EB; margin-bottom: 16px; line-height: 1.4; }
     .modal-btn-group { display: flex; gap: 8px; justify-content: center; }
     .modal-btn { padding: 6px 16px; font-size: 13px; font-weight: bold; border-radius: 5px; border: none; cursor: pointer; }
-    .modal-btn-confirm { background-color: #0EA5E9; color: #FFF; }
-    .modal-btn-cancel { background-color: #2F3E44; color: #A4B5BC; }
+    .modal-btn-confirm { background-color: #D97706; color: #FFF; }
+    .modal-btn-cancel { background-color: #38332F; color: #B0A79A; }
     
     .toast-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.4); display: flex; justify-content: center; align-items: center; z-index: 1100; display: none; }
-    .toast-box { background-color: #253338; border: 1px solid #435860; border-radius: 8px; padding: 16px 24px; text-align: center; font-size: 14px; color: #F0F4F5; font-weight: bold; box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
+    .toast-box { background-color: #2D2926; border: 1px solid #524A42; border-radius: 8px; padding: 16px 24px; text-align: center; font-size: 14px; color: #F5F2EB; font-weight: bold; box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
     
     .dashboard-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 16px; }
-    .column { background-color: #253338; border-radius: 8px; padding: 12px; border: 1px solid #35464C; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+    .column { background-color: #2D2926; border-radius: 8px; padding: 12px; border: 1px solid #423C36; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
     .column-header { padding: 5px 10px; border-radius: 4px; font-size: 14px; font-weight: 700; margin-bottom: 10px; display: inline-block; width: 100%; }
     .column-header a { color: inherit; text-decoration: none; display: flex; justify-content: space-between; align-items: center; }
     .column-subtext { font-size: 10.5px; font-weight: normal; opacity: 0.75; margin-top: 2px; display: block; }
     
-    /* 어두운 스카이 민트 테마에 맞춘 카드 및 폴더 헤더 컬러 */
-    .bg-blue { background-color: #1A3544; color: #38BDF8; }
-    .bg-green { background-color: #19382B; color: #4ADE80; }
-    .bg-teal { background-color: #183B3A; color: #2DD4BF; }
-    .bg-purple { background-color: #2D2342; color: #C084FC; }
-    .bg-yellow { background-color: #38301B; color: #FACC15; }
+    /* 어두운 코지 크림 테마에 맞춘 카드 및 폴더 헤더 컬러 */
+    .bg-blue { background-color: #22343F; color: #38BDF8; }
+    .bg-green { background-color: #1F362A; color: #4ADE80; }
+    .bg-teal { background-color: #1E3735; color: #2DD4BF; }
+    .bg-purple { background-color: #32263F; color: #C084FC; }
+    .bg-yellow { background-color: #3B301C; color: #FACC15; }
     
     .link-list { list-style: none; }
     .link-item { margin-bottom: 3px; }
-    .link-item a { display: flex; align-items: center; gap: 6px; padding: 5px 6px; color: #C2CDD2; text-decoration: none; font-size: 12px; border-radius: 4px; }
-    .link-item a:hover { background-color: #2F3E44; color: #F0F4F5; }
+    .link-item a { display: flex; align-items: center; gap: 6px; padding: 5px 6px; color: #C5BCB0; text-decoration: none; font-size: 12px; border-radius: 4px; }
+    .link-item a:hover { background-color: #38332F; color: #F5F2EB; }
     .locked { opacity: 0.3; pointer-events: none; filter: grayscale(1); }
 
     @media (max-width: 1200px) {
@@ -160,12 +160,12 @@
     <div class="recent-pane">
       <div class="section-header-row" style="margin-bottom: 8px;">
         <div class="section-title-group">
-          <span style="font-size: 13.5px; font-weight: bold; color: #38BDF8;">📢 최근 업데이트된 문서</span>
+          <span style="font-size: 13.5px; font-weight: bold; color: #F59E0B;">📢 최근 업데이트된 문서</span>
           <span class="section-desc">최근 5일간 수정된 파일</span>
         </div>
       </div>
       <div id="resultsContent" class="recent-results">
-        <p style="color:#8CA0A8; padding:4px 0; font-size:12px;">최근 업데이트 문서를 불러오는 중입니다...</p>
+        <p style="color:#9E9487; padding:4px 0; font-size:12px;">최근 업데이트 문서를 불러오는 중입니다...</p>
       </div>
     </div>
 
@@ -173,7 +173,7 @@
     <div class="attendance-pane">
       <div class="section-header-row" style="margin-bottom: 8px;">
         <div class="section-title-group">
-          <span style="font-size: 13.5px; font-weight: bold; color: #38BDF8;">⏰ 출퇴근 기록</span>
+          <span style="font-size: 13.5px; font-weight: bold; color: #F59E0B;">⏰ 출퇴근 기록</span>
           <span class="section-desc">터치 시 출/퇴근 교대 기록</span>
         </div>
       </div>
@@ -448,7 +448,7 @@
           accessToken = null;
           accessibleFolders = [CONFIG.FOLDERS.STAFF];
           document.getElementById('userStatus').innerText = '🔒 01 전직원 접근 가능';
-          document.getElementById('userStatus').style.color = '#A4B5BC';
+          document.getElementById('userStatus').style.color = '#B0A79A';
           document.getElementById('btnLogin').style.display = 'inline-block';
           document.getElementById('btnLogout').style.display = 'none';
           loadRecentFiles();
@@ -490,7 +490,9 @@
       const fiveDaysAgo = new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString();
       const folderConditions = accessibleFolders.map(id => `'${id}' in parents`).join(' or ');
       const query = `(${folderConditions}) and modifiedTime > '${fiveDaysAgo}' and trashed = false`;
-      let url = `https://www.googleapis.com/drive/v3/files?q=${encodeURIComponent(query)}&orderBy=modifiedTime desc&fields=files(id,name,webViewLink,modifiedTime)`;
+      let url = `https://www.googleapis.com/drive/v3/files?q=${encodeURIComponent(query)}&orderBy=modifiedTest desc&fields=files(id,name,webViewLink,modifiedTime)`;
+      // fixed typo in query sorting parameter just in case
+      url = `https://www.googleapis.com/drive/v3/files?q=${encodeURIComponent(query)}&orderBy=modifiedTime desc&fields=files(id,name,webViewLink,modifiedTime)`;
       let headers = accessToken ? { Authorization: `Bearer ${accessToken}` } : {};
       if (!accessToken) url += `&key=${CONFIG.API_KEY}`;
 
@@ -506,7 +508,7 @@
             html += '</ul>';
             contentEl.innerHTML = html;
           } else {
-            contentEl.innerHTML = '<p style="color:#8CA0A8; padding:4px 0; font-size:12px;">최근 5일간 업데이트된 문서가 없습니다.</p>';
+            contentEl.innerHTML = '<p style="color:#9E9487; padding:4px 0; font-size:12px;">최근 5일간 업데이트된 문서가 없습니다.</p>';
           }
         })
         .catch(err => {
