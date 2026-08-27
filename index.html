@@ -10,11 +10,11 @@
     
     body { background-color: #F8F9FA; color: #333333; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 30px 24px; font-size: 13.5px; }
     
-    /* 헤더 영역: 로고 + 대시보드 텍스트 / 로그인 버튼 */
-    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
-    .brand-group { display: flex; align-items: center; gap: 16px; }
-    .header-logo { height: 72px; width: auto; display: block; }
-    .title { font-size: 26px; font-weight: 700; color: #111111; letter-spacing: -0.5px; }
+    /* 1, 2. 로고와 '업무 대시보드' 크기 확대 및 아랫선 맞춤 */
+    .header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; }
+    .brand-group { display: flex; align-items: flex-end; gap: 16px; }
+    .header-logo { height: 90px; width: auto; display: block; }
+    .title { font-size: 34px; font-weight: 700; color: #111111; letter-spacing: -0.5px; line-height: 1; margin-bottom: 4px; }
     
     .auth-btn-group { display: flex; gap: 10px; align-items: center; }
     .role-badge { padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; background: #E9ECEF; border: 1px solid #CED4DA; color: #495057; }
@@ -23,10 +23,15 @@
     .btn-logout { padding: 6px 14px; background: #E9ECEF; color: #495057; border: 1px solid #CED4DA; border-radius: 5px; cursor: pointer; display: none; font-size: 12.5px; }
     .btn-logout:hover { background: #DEE2E6; }
     
-    /* [수정] 업데이트 문서와 출퇴근 기록을 하나로 묶어 좌우 2열로 배치하는 메인 상단 패널 */
-    .top-combined-section { background-color: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; padding: 16px 18px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: stretch; }
+    /* 5. 전달사항 칸 스타일 추가 */
+    .notice-board-section { background-color: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; padding: 12px 18px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 12px; }
+    .notice-label { font-size: 13.5px; font-weight: bold; color: #D97706; white-space: nowrap; display: flex; align-items: center; gap: 6px; }
+    .notice-input { flex-grow: 1; border: 1px solid #CBD5E1; border-radius: 6px; padding: 8px 12px; font-size: 13.5px; color: #1E293B; background-color: #F8FAFC; outline: none; }
+    .notice-input:focus { background-color: #FFFFFF; border-color: #2563EB; box-shadow: 0 0 0 2px rgba(37,99,235,0.1); }
+
+    /* 3. 최근 업데이트된 문서(좌측)와 출퇴근 기록(우측) 비율 조정 (3:7) */
+    .top-combined-section { background-color: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; padding: 16px 18px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: grid; grid-template-columns: 3.2fr 6.8fr; gap: 20px; align-items: stretch; }
     
-    /* 왼쪽: 최근 업데이트 문서 영역 */
     .recent-pane { display: flex; flex-direction: column; }
     .recent-header { font-size: 14px; font-weight: bold; color: #D97706; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
     .recent-results { max-height: 140px; overflow-y: auto; flex-grow: 1; }
@@ -36,13 +41,13 @@
     .recent-results-list a:hover { text-decoration: underline; }
     .file-date { font-size: 11.5px; color: #64748B; margin-left: 8px; }
     
-    /* 오른쪽: 출퇴근 기록 영역 */
     .attendance-pane { display: flex; flex-direction: column; border-left: 1px solid #F1F5F9; padding-left: 20px; }
     .attendance-header { font-size: 14px; font-weight: bold; color: #0284C7; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
     
-    /* 출퇴근 버튼 6명을 2열 Grid로 깔끔하게 배치 */
     .attendance-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; flex-grow: 1; align-content: center; }
-    .member-card { background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 6px; padding: 8px 10px; display: flex; align-items: center; justify-content: space-between; }
+    
+    /* 4. 출퇴근 기록 이름과 버튼 사이 간격 좁힘 (space-between 적용) */
+    .member-card { background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 6px; padding: 8px 12px; display: flex; align-items: center; justify-content: space-between; }
     
     .member-name { font-size: 13px; font-weight: bold; color: #1E293B; white-space: nowrap; }
     .btn-toggle-att { padding: 4px 10px; font-size: 11.5px; font-weight: bold; border-radius: 4px; cursor: pointer; border: none; white-space: nowrap; }
@@ -100,6 +105,7 @@
     <div id="toastMsg" class="toast-box">완료 메시지</div>
   </div>
 
+  <!-- 1, 2. 로고와 '업무 대시보드' 크기 및 아랫선 맞춤 -->
   <div class="header">
     <div class="brand-group">
       <img src="logo.png" alt="다정부부한의원" class="header-logo">
@@ -112,7 +118,13 @@
     </div>
   </div>
 
-  <!-- [수정됨] 최근 업데이트된 문서(좌측)와 출퇴근 기록(우측)을 하나의 박스로 합침 -->
+  <!-- 5. 전달사항 입력 칸 (누구나 자유롭게 입력 가능) -->
+  <div class="notice-board-section">
+    <span class="notice-label">📌 전달사항 :</span>
+    <input type="text" class="notice-input" placeholder="원내 전달사항이나 공지 내용을 입력하세요...">
+  </div>
+
+  <!-- 3, 4. 최근 업데이트된 문서(좌측 축소) 및 출퇴근 기록(버튼 간격 좁힘) -->
   <div class="top-combined-section">
     <div class="recent-pane">
       <div class="recent-header">📢 최근 업데이트된 문서 (최근 5일)</div>
