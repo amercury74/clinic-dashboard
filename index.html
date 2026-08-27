@@ -22,36 +22,37 @@
     .btn-logout { padding: 6px 14px; background: #E9ECEF; color: #495057; border: 1px solid #CED4DA; border-radius: 5px; cursor: pointer; display: none; font-size: 12.5px; }
     .btn-logout:hover { background: #DEE2E6; }
     
-    /* 상단 통합 그리드: 세 영역(전달사항, 업데이트 문서, 출퇴근 기록)을 한 줄에 3열로 배치 */
+    /* 상단 통합 그리드: 세 영역(임시공지, 최근 업데이트된 문서, 출퇴근 기록) 한 줄 배치 */
     .top-layout-grid { display: grid; grid-template-columns: 1fr 1fr 1.2fr; gap: 14px; margin-bottom: 16px; align-items: stretch; }
     
-    /* 1. 전달사항 칸 스타일 (저장/삭제 기능 포함) */
+    /* 1, 2. 임시공지 칸 스타일 (줄별 개별 관리) */
     .notice-board-section { background-color: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; padding: 12px 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: flex; flex-direction: column; gap: 8px; }
-    .notice-header-row { display: flex; justify-content: space-between; align-items: center; }
-    .notice-label { font-size: 13.5px; font-weight: bold; color: #D97706; display: flex; align-items: center; gap: 6px; }
-    .notice-actions { display: flex; gap: 6px; }
-    .notice-btn { padding: 3px 8px; font-size: 11px; font-weight: bold; border-radius: 4px; border: none; cursor: pointer; }
-    .btn-save-notice { background-color: #2563EB; color: #FFF; }
-    .btn-save-notice:hover { background-color: #1D4ED8; }
-    .btn-clear-notice { background-color: #F1F5F9; color: #64748B; border: 1px solid #CBD5E1; }
-    .btn-clear-notice:hover { background-color: #E2E8F0; color: #334155; }
-    .notice-textarea { width: 100%; height: 95px; border: 1px solid #CBD5E1; border-radius: 6px; padding: 8px 10px; font-size: 13px; color: #1E293B; background-color: #F8FAFC; resize: none; outline: none; line-height: 1.4; }
-    .notice-textarea:focus { background-color: #FFFFFF; border-color: #2563EB; box-shadow: 0 0 0 2px rgba(37,99,235,0.1); }
+    .section-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+    .section-title-group { display: flex; align-items: baseline; gap: 6px; }
+    .notice-label { font-size: 13.5px; font-weight: bold; color: #D97706; }
+    .section-desc { font-size: 11px; color: #64748B; }
+    
+    /* 줄별 입력 행 스타일 */
+    .notice-row { display: flex; gap: 6px; align-items: center; margin-bottom: 4px; }
+    .notice-input { flex-grow: 1; border: 1px solid #CBD5E1; border-radius: 4px; padding: 5px 8px; font-size: 12.5px; color: #1E293B; background-color: #F8FAFC; outline: none; }
+    .notice-input:focus { background-color: #FFFFFF; border-color: #2563EB; box-shadow: 0 0 0 2px rgba(37,99,235,0.1); }
+    .notice-btn { padding: 4px 8px; font-size: 11px; font-weight: bold; border-radius: 4px; border: none; cursor: pointer; white-space: nowrap; }
+    .btn-save-row { background-color: #2563EB; color: #FFF; }
+    .btn-save-row:hover { background-color: #1D4ED8; }
+    .btn-clear-row { background-color: #F1F5F9; color: #64748B; border: 1px solid #CBD5E1; }
+    .btn-clear-row:hover { background-color: #E2E8F0; color: #334155; }
 
-    /* 2. 최근 업데이트된 문서 칸 (미니멀 스타일) */
+    /* 3. 최근 업데이트된 문서 칸 */
     .recent-pane { background-color: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; padding: 12px 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: flex; flex-direction: column; }
-    .recent-header { font-size: 13.5px; font-weight: bold; color: #D97706; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
-    .recent-results { max-height: 100px; overflow-y: auto; }
+    .recent-results { max-height: 115px; overflow-y: auto; }
     .recent-results-list { list-style: none; }
     .recent-results-list li { padding: 5px 6px; border-bottom: 1px solid #F1F5F9; display: flex; align-items: center; justify-content: space-between; font-size: 12px; color: #334155; }
     .recent-results-list a { color: #2563EB; text-decoration: none; font-weight: 500; }
     .recent-results-list a:hover { text-decoration: underline; }
     .file-date { font-size: 11px; color: #64748B; margin-left: 6px; }
     
-    /* 3. 출퇴근 기록 칸 */
+    /* 출퇴근 기록 칸 */
     .attendance-pane { background-color: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; padding: 12px 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: flex; flex-direction: column; }
-    .attendance-header { font-size: 13.5px; font-weight: bold; color: #0284C7; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; }
-    
     .attendance-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; flex-grow: 1; align-content: center; }
     .member-card { background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 6px; padding: 6px 10px; display: flex; align-items: center; justify-content: space-between; }
     
@@ -73,8 +74,9 @@
     
     .dashboard-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 16px; }
     .column { background-color: #FFFFFF; border-radius: 8px; padding: 12px; border: 1px solid #E2E8F0; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-    .column-header { padding: 5px 10px; border-radius: 4px; font-size: 14px; font-weight: 700; margin-bottom: 10px; display: inline-block; }
-    .column-header a { color: inherit; text-decoration: none; display: flex; align-items: center; gap: 4px; }
+    .column-header { padding: 5px 10px; border-radius: 4px; font-size: 14px; font-weight: 700; margin-bottom: 10px; display: inline-block; width: 100%; }
+    .column-header a { color: inherit; text-decoration: none; display: flex; justify-content: space-between; align-items: center; }
+    .column-subtext { font-size: 10.5px; font-weight: normal; opacity: 0.85; margin-top: 2px; display: block; }
     
     .bg-blue { background-color: #E0F2FE; color: #0369A1; }
     .bg-green { background-color: #DCFCE7; color: #15803D; }
@@ -122,43 +124,73 @@
     </div>
   </div>
 
-  <!-- 상단 가로 3열 레이아웃 (전달사항 | 최근 업데이트된 문서 | 출퇴근 기록) -->
+  <!-- 상단 가로 3열 레이아웃 -->
   <div class="top-layout-grid">
     
-    <!-- 1. 전달사항 칸 -->
+    <!-- 1, 2. 임시공지 칸 (줄별 개별 저장/삭제) -->
     <div class="notice-board-section">
-      <div class="notice-header-row">
-        <span class="notice-label">📌 전달사항 / 공지</span>
-        <div class="notice-actions">
-          <button class="notice-btn btn-save-notice" onclick="saveNotice()">저장</button>
-          <button class="notice-btn btn-clear-notice" onclick="clearNotice()">삭제</button>
+      <div class="section-header-row">
+        <div class="section-title-group">
+          <span class="notice-label">📌 임시공지</span>
+          <span class="section-desc">원내 실시간 메모 공간</span>
         </div>
       </div>
-      <textarea id="noticeTextarea" class="notice-textarea" placeholder="원내 전달사항이나 공지 내용을 입력하세요... (자동 저장)"></textarea>
+      <!-- 줄 1 -->
+      <div class="notice-row">
+        <input type="text" id="noticeInput0" class="notice-input" placeholder="1번 공지사항 입력...">
+        <button class="notice-btn btn-save-row" onclick="saveRow(0)">저장</button>
+        <button class="notice-btn btn-clear-row" onclick="clearRow(0)">삭제</button>
+      </div>
+      <!-- 줄 2 -->
+      <div class="notice-row">
+        <input type="text" id="noticeInput1" class="notice-input" placeholder="2번 공지사항 입력...">
+        <button class="notice-btn btn-save-row" onclick="saveRow(1)">저장</button>
+        <button class="notice-btn btn-clear-row" onclick="clearRow(1)">삭제</button>
+      </div>
+      <!-- 줄 3 -->
+      <div class="notice-row">
+        <input type="text" id="noticeInput2" class="notice-input" placeholder="3번 공지사항 입력...">
+        <button class="notice-btn btn-save-row" onclick="saveRow(2)">저장</button>
+        <button class="notice-btn btn-clear-row" onclick="clearRow(2)">삭제</button>
+      </div>
     </div>
 
-    <!-- 2. 최근 업데이트된 문서 칸 -->
+    <!-- 3. 최근 업데이트된 문서 칸 -->
     <div class="recent-pane">
-      <div class="recent-header">📢 최근 업데이트된 문서 (최근 5일)</div>
+      <div class="section-header-row" style="margin-bottom: 8px;">
+        <div class="section-title-group">
+          <span style="font-size: 13.5px; font-weight: bold; color: #D97706;">📢 최근 업데이트된 문서</span>
+          <span class="section-desc">최근 5일간 수정된 파일</span>
+        </div>
+      </div>
       <div id="resultsContent" class="recent-results">
         <p style="color:#64748B; padding:4px 0; font-size:12px;">최근 업데이트 문서를 불러오는 중입니다...</p>
       </div>
     </div>
 
-    <!-- 3. 출퇴근 기록 칸 -->
+    <!-- 출퇴근 기록 칸 -->
     <div class="attendance-pane">
-      <div class="attendance-header">
-        <span>⏰ 출퇴근 기록</span>
-        <small style="font-size:11px; color:#64748B; font-weight:normal;">버튼 클릭 시 교대 기록</small>
+      <div class="section-header-row" style="margin-bottom: 8px;">
+        <div class="section-title-group">
+          <span style="font-size: 13.5px; font-weight: bold; color: #0284C7;">⏰ 출퇴근 기록</span>
+          <span class="section-desc">터치 시 출/퇴근 교대 기록</span>
+        </div>
       </div>
       <div class="attendance-grid" id="attendanceGrid"></div>
     </div>
 
   </div>
 
+  <!-- 하단 5개 폴더 메뉴 (각 메뉴별 설명 추가) -->
   <div class="dashboard-grid">
     <div class="column" id="colReception">
-      <div class="column-header bg-blue"><a href="https://drive.google.com/drive/folders/1w2C4X7dtGdOdLnBkkGLqWW18C3z5HSQG" target="_blank">🏥 접수 / 치료 ↗</a></div>
+      <div class="column-header bg-blue">
+        <a href="https://drive.google.com/drive/folders/1w2C4X7dtGdOdLnBkkGLqWW18C3z5HSQG" target="_blank">
+          <span>🏥 접수 / 치료</span>
+          <span style="font-size: 11px;">↗</span>
+        </a>
+        <span class="column-subtext">원내 공지 및 접수 관련 자료</span>
+      </div>
       <ul class="link-list">
         <li class="link-item"><a href="https://drive.google.com/drive/folders/1w2C4X7dtGdOdLnBkkGLqWW18C3z5HSQG" target="_blank">📢 전체 공지 사항</a></li>
         <li class="link-item"><a href="https://drive.google.com/drive/folders/1w2C4X7dtGdOdLnBkkGLqWW18C3z5HSQG" target="_blank">💰 급여 관련 공지 사항</a></li>
@@ -171,28 +203,52 @@
     </div>
 
     <div class="column" id="colManual">
-      <div class="column-header bg-green"><a href="https://drive.google.com/drive/folders/1w2C4X7dtGdOdLnBkkGLqWW18C3z5HSQG" target="_blank">📜 매뉴얼 ↗</a></div>
+      <div class="column-header bg-green">
+        <a href="https://drive.google.com/drive/folders/1w2C4X7dtGdOdLnBkkGLqWW18C3z5HSQG" target="_blank">
+          <span>📜 매뉴얼</span>
+          <span style="font-size: 11px;">↗</span>
+        </a>
+        <span class="column-subtext">처방집 및 약재 용량표</span>
+      </div>
       <ul class="link-list">
         <li class="link-item"><a href="https://drive.google.com/drive/folders/1w2C4X7dtGdOdLnBkkGLqWW18C3z5HSQG" target="_blank">원내 처방집 및 약재 용량표</a></li>
       </ul>
     </div>
 
     <div class="column locked" id="colDecoction">
-      <div class="column-header bg-teal"><a href="https://drive.google.com/drive/folders/1sYdNudJ3Y1wWMhrvIM39M4hmKLryo9NY" target="_blank">🍶 탕전실 ↗</a></div>
+      <div class="column-header bg-teal">
+        <a href="https://drive.google.com/drive/folders/1sYdNudJ3Y1wWMhrvIM39M4hmKLryo9NY" target="_blank">
+          <span>🍶 탕전실</span>
+          <span style="font-size: 11px;">↗</span>
+        </a>
+        <span class="column-subtext">탕전 및 제형별 조제 매뉴얼</span>
+      </div>
       <ul class="link-list">
         <li class="link-item"><a href="https://drive.google.com/drive/folders/1sYdNudJ3Y1wWMhrvIM39M4hmKLryo9NY" target="_blank">탕전 및 제형별 조제 매뉴얼</a></li>
       </ul>
     </div>
 
     <div class="column locked" id="colDoctor">
-      <div class="column-header bg-purple"><a href="https://drive.google.com/drive/folders/1caciuhYkxjhIC3zQi6b4ZPLI4huSNFz_" target="_blank">🩺 진료 ↗</a></div>
+      <div class="column-header bg-purple">
+        <a href="https://drive.google.com/drive/folders/1caciuhYkxjhIC3zQi6b4ZPLI4huSNFz_" target="_blank">
+          <span>🩺 진료</span>
+          <span style="font-size: 11px;">↗</span>
+        </a>
+        <span class="column-subtext">학술 및 임상 가이드라인</span>
+      </div>
       <ul class="link-list">
         <li class="link-item"><a href="https://drive.google.com/drive/folders/1caciuhYkxjhIC3zQi6b4ZPLI4huSNFz_" target="_blank">학술 / 임상 가이드라인</a></li>
       </ul>
     </div>
 
     <div class="column locked" id="colAdmin">
-      <div class="column-header bg-yellow"><a href="https://drive.google.com/drive/folders/1HE5f_uSjP8v-lSeO5yTgherYXjt24_yX" target="_blank">💰 경영 ↗</a></div>
+      <div class="column-header bg-yellow">
+        <a href="https://drive.google.com/drive/folders/1HE5f_uSjP8v-lSeO5yTgherYXjt24_yX" target="_blank">
+          <span>💰 경영</span>
+          <span style="font-size: 11px;">↗</span>
+        </a>
+        <span class="column-subtext">매출 및 수입 집계표</span>
+      </div>
       <ul class="link-list">
         <li class="link-item"><a href="https://drive.google.com/drive/folders/1HE5f_uSjP8v-lSeO5yTgherYXjt24_yX" target="_blank">일일 매출 / 수입 집계표</a></li>
       </ul>
@@ -238,7 +294,8 @@
         },
       });
 
-      loadNotice();
+      // 임시공지 불러오기 (3개 행)
+      loadAllNotices();
 
       CONFIG.MEMBERS.forEach(name => {
         attendanceStates[name] = '출근';
@@ -250,38 +307,44 @@
       loadRecentFiles();
     };
 
-    function loadNotice() {
-      const savedNotice = localStorage.getItem('clinic_notice');
-      if (savedNotice !== null) {
-        document.getElementById('noticeTextarea').value = savedNotice;
+    // 임시공지 줄별 저장/삭제 로직
+    function loadAllNotices() {
+      for (let i = 0; i < 3; i++) {
+        const val = localStorage.getItem('clinic_notice_row_' + i);
+        if (val !== null) {
+          document.getElementById('noticeInput' + i).value = val;
+        }
       }
     }
 
-    function saveNotice() {
-      const text = document.getElementById('noticeTextarea').value;
-      localStorage.setItem('clinic_notice', text);
-      showToast('✅ 전달사항이 저장되었습니다.');
+    function saveRow(index) {
+      const val = document.getElementById('noticeInput' + index).value;
+      localStorage.setItem('clinic_notice_row_' + index, val);
+      showToast(`✅ ${index + 1}번 공지가 저장되었습니다.`);
     }
 
-    function clearNotice() {
-      showCustomConfirm('전달사항 내용을 삭제하시겠습니까?', function(confirmed) {
+    function clearRow(index) {
+      showCustomConfirm(`${index + 1}번 공지 내용을 삭제하시겠습니까?`, function(confirmed) {
         if (!confirmed) return;
-        document.getElementById('noticeTextarea').value = '';
-        localStorage.removeItem('clinic_notice');
-        showToast('🗑️ 전달사항이 삭제되었습니다.');
+        document.getElementById('noticeInput' + index).value = '';
+        localStorage.removeItem('clinic_notice_row_' + index);
+        showToast(`🗑️ ${index + 1}번 공지가 삭제되었습니다.`);
       });
     }
 
-    let noticeTimeout;
+    // 입력 시 자동 저장 (선택 사항)
     document.addEventListener('DOMContentLoaded', () => {
-      const textarea = document.getElementById('noticeTextarea');
-      if (textarea) {
-        textarea.addEventListener('input', () => {
-          clearTimeout(noticeTimeout);
-          noticeTimeout = setTimeout(() => {
-            localStorage.setItem('clinic_notice', textarea.value);
-          }, 500);
-        });
+      for (let i = 0; i < 3; i++) {
+        const input = document.getElementById('noticeInput' + i);
+        if (input) {
+          let timeout;
+          input.addEventListener('input', () => {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+              localStorage.setItem('clinic_notice_row_' + i, input.value);
+            }, 500);
+          });
+        }
       }
     });
 
