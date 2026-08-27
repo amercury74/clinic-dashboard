@@ -17,7 +17,7 @@
       background-color: #191919;
       color: #D4D4D4;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      padding: 40px 60px;
+      padding: 40px 40px;
     }
 
     /* 상단 헤더 영역 */
@@ -72,7 +72,7 @@
     }
     .btn-logout:hover { background: #444; }
 
-    /* 최근 변동 파일 단독 상시 노출 영역 */
+    /* 최근 변동 파일 영역 */
     .recent-section {
       background-color: #202020;
       border: 1px solid #2F2F2F;
@@ -92,7 +92,7 @@
     }
 
     .recent-results {
-      max-height: 280px;
+      max-height: 250px;
       overflow-y: auto;
     }
 
@@ -110,11 +110,11 @@
     .recent-results-list a:hover { text-decoration: underline; }
     .file-date { font-size: 12px; color: #888; margin-left: 8px; }
 
-    /* 3열 레이아웃 grid */
+    /* 4열 레이아웃 grid */
     .dashboard-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
       margin-bottom: 30px;
     }
 
@@ -129,12 +129,14 @@
     .column-header {
       padding: 6px 12px;
       border-radius: 4px;
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 700;
       margin-bottom: 16px;
       display: inline-block;
     }
 
+    /* 4가지 테마 색상 정의 */
+    .bg-blue { background-color: #162C46; color: #40A9FF; }
     .bg-green { background-color: #1C3829; color: #52C41A; }
     .bg-purple { background-color: #2B213A; color: #B37FEB; }
     .bg-yellow { background-color: #382E1C; color: #FADB14; }
@@ -170,7 +172,10 @@
       gap: 10px;
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 1200px) {
+      .dashboard-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 768px) {
       .dashboard-grid { grid-template-columns: 1fr; }
       body { padding: 20px; }
     }
@@ -192,7 +197,7 @@
     </div>
   </div>
 
-  <!-- 최근 변동 파일 상시 노출 영역 (검색창 제거됨) -->
+  <!-- 최근 변동 파일 노출 영역 -->
   <div class="recent-section">
     <div class="recent-header">📢 최근 업데이트된 문서 (최근 7일)</div>
     <div id="resultsContent" class="recent-results">
@@ -200,36 +205,48 @@
     </div>
   </div>
 
-  <!-- 메인 대시보드 (3열) -->
+  <!-- 메인 대시보드 (4열) -->
   <div class="dashboard-grid">
 
-    <!-- 1열: 진료 및 임상 (전직원 & 탕전실 접근 가능) -->
-    <div class="column" id="colStaff">
-      <div class="column-header bg-green">🩺 진료 & 임상 WORK</div>
+    <!-- 1열: 접수/치료 (전직원 접근 가능) -->
+    <div class="column" id="colReception">
+      <div class="column-header bg-blue">🏥 접수 / 치료</div>
+      <ul class="link-list">
+        <li class="link-item"><a href="https://drive.google.com/drive/folders/1w2C4X7dtGdOdLnBkkGLqWW18C3z5HSQG" target="_blank"><span class="item-icon">📋</span> 초진 / 재진 설문지 양식</a></li>
+        <li class="link-item"><a href="https://drive.google.com/drive/folders/1w2C4X7dtGdOdLnBkkGLqWW18C3z5HSQG" target="_blank"><span class="item-icon">💡</span> 질환별 환자 안내문 모음</a></li>
+        <li class="link-item"><a href="https://drive.google.com/drive/folders/1w2C4X7dtGdOdLnBkkGLqWW18C3z5HSQG" target="_blank"><span class="item-icon">💳</span> 수수가 / 데스크 안내 자료</a></li>
+        <li class="link-item"><a href="https://drive.google.com/drive/folders/1w2C4X7dtGdOdLnBkkGLqWW18C3z5HSQG" target="_blank"><span class="item-icon">🏥</span> 물리치료실 / 침구실 매뉴얼</a></li>
+        <li class="link-item"><a href="https://drive.google.com/drive/folders/1w2C4X7dtGdOdLnBkkGLqWW18C3z5HSQG" target="_blank"><span class="item-icon">📞</span> 환자 예약 / 전화 응대 서식</a></li>
+      </ul>
+    </div>
+
+    <!-- 2열: 매뉴얼 (전직원 & 탕전실 접근 가능) -->
+    <div class="column" id="colManual">
+      <div class="column-header bg-green">📜 매뉴얼</div>
       <ul class="link-list">
         <li class="link-item"><a href="https://drive.google.com/drive/folders/1w2C4X7dtGdOdLnBkkGLqWW18C3z5HSQG" target="_blank"><span class="item-icon">🌿</span> 원내 처방집 및 약재 용량표</a></li>
         <li class="link-item"><a href="https://drive.google.com/drive/folders/1w2C4X7dtGdOdLnBkkGLqWW18C3z5HSQG" target="_blank"><span class="item-icon">📜</span> 탕전 및 제형별 매뉴얼</a></li>
-        <li class="link-item"><a href="https://drive.google.com/drive/folders/1w2C4X7dtGdOdLnBkkGLqWW18C3z5HSQG" target="_blank"><span class="item-icon">📋</span> 초진 / 재진 설문지 양식</a></li>
-        <li class="link-item"><a href="https://drive.google.com/drive/folders/1w2C4X7dtGdOdLnBkkGLqWW18C3z5HSQG" target="_blank"><span class="item-icon">💡</span> 질환별 환자 안내문 모음</a></li>
-        <li class="link-item"><a href="https://drive.google.com/drive/folders/1w2C4X7dtGdOdLnBkkGLqWW18C3z5HSQG" target="_blank"><span class="item-icon">🩺</span> 신규 의료진 인수인계서</a></li>
+        <li class="link-item"><a href="https://drive.google.com/drive/folders/1sYdNudJ3Y1wWMhrvIM39M4hmKLryo9NY" target="_blank"><span class="item-icon">📦</span> 약재 및 소모품 재고 현황</a></li>
+        <li class="link-item"><a href="https://drive.google.com/drive/folders/1w2C4X7dtGdOdLnBkkGLqWW18C3z5HSQG" target="_blank"><span class="item-icon">🚦</span> 원내 직원 근무 수칙 (SOP)</a></li>
+        <li class="link-item"><a href="https://drive.google.com/drive/folders/1w2C4X7dtGdOdLnBkkGLqWW18C3z5HSQG" target="_blank"><span class="item-icon">🩺</span> 신규 직원 / 의료진 인수인계서</a></li>
       </ul>
     </div>
 
-    <!-- 2열: 행정 및 인사 (진료원장 이상 접근 가능) -->
+    <!-- 3열: 진료 (진료원장 이상 접근 가능) -->
     <div class="column locked" id="colDoctor">
-      <div class="column-header bg-purple">📋 행정 & 인사 HR</div>
+      <div class="column-header bg-purple">🩺 진료</div>
       <ul class="link-list">
+        <li class="link-item"><a href="https://drive.google.com/drive/folders/1caciuhYkxjhIC3zQi6b4ZPLI4huSNFz_" target="_blank"><span class="item-icon">📖</span> 학술 / 임상 가이드라인</a></li>
         <li class="link-item"><a href="https://drive.google.com/drive/folders/1caciuhYkxjhIC3zQi6b4ZPLI4huSNFz_" target="_blank"><span class="item-icon">👥</span> 근로계약서 / 노무 서식</a></li>
         <li class="link-item"><a href="https://drive.google.com/drive/folders/1caciuhYkxjhIC3zQi6b4ZPLI4huSNFz_" target="_blank"><span class="item-icon">📅</span> 직원 근태 / 휴가 신청 기록부</a></li>
-        <li class="link-item"><a href="https://drive.google.com/drive/folders/1caciuhYkxjhIC3zQi6b4ZPLI4huSNFz_" target="_blank"><span class="item-icon">🚦</span> 원내 직원 근무 수칙 (SOP)</a></li>
         <li class="link-item"><a href="https://drive.google.com/drive/folders/1caciuhYkxjhIC3zQi6b4ZPLI4huSNFz_" target="_blank"><span class="item-icon">🏥</span> 의료기기 점검 및 관리대장</a></li>
-        <li class="link-item"><a href="https://drive.google.com/drive/folders/1sYdNudJ3Y1wWMhrvIM39M4hmKLryo9NY" target="_blank"><span class="item-icon">📦</span> 약재 및 소모품 재고 현황 (탕전실)</a></li>
+        <li class="link-item"><a href="https://drive.google.com/drive/folders/1caciuhYkxjhIC3zQi6b4ZPLI4huSNFz_" target="_blank"><span class="item-icon">📋</span> 진료실 전용 가이드 서식</a></li>
       </ul>
     </div>
 
-    <!-- 3열: 경영 및 재무 (관리자만 접근 가능) -->
+    <!-- 4열: 경영 (관리자만 접근 가능) -->
     <div class="column locked" id="colAdmin">
-      <div class="column-header bg-yellow">💰 경영 & 재무 MANAGEMENT</div>
+      <div class="column-header bg-yellow">💰 경영</div>
       <ul class="link-list">
         <li class="link-item"><a href="https://drive.google.com/drive/folders/1HE5f_uSjP8v-lSeO5yTgherYXjt24_yX" target="_blank"><span class="item-icon">📊</span> 일일 매출 / 수입 집계표</a></li>
         <li class="link-item"><a href="https://drive.google.com/drive/folders/1HE5f_uSjP8v-lSeO5yTgherYXjt24_yX" target="_blank"><span class="item-icon">📈</span> 월별 경영 및 재무 결산서</a></li>
@@ -243,7 +260,7 @@
 
   <!-- 하단 가이드 바 -->
   <div class="footer-bar">
-    <span>⁉️</span> <b>사용 가이드:</b> 접속 권한 범위 내에서 최근 7일간 변동된 문서가 상단에 노출됩니다. [구글 로그인] 시 각 직급에 맞는 폴더 권한이 자동으로 승권됩니다.
+    <span>⁉️</span> <b>사용 가이드:</b> 접수/치료, 매뉴얼, 진료, 경영 4개 영역으로 구분되어 있으며 로그인 권한에 따라 해당 열이 활성화됩니다.
   </div>
 
   <script>
