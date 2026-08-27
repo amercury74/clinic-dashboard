@@ -78,7 +78,7 @@
       border: 1px solid #2F2F2F;
       border-radius: 8px;
       padding: 16px 20px;
-      margin-bottom: 30px;
+      margin-bottom: 24px;
     }
 
     .recent-header {
@@ -92,13 +92,13 @@
     }
 
     .recent-results {
-      max-height: 250px;
+      max-height: 180px;
       overflow-y: auto;
     }
 
     .recent-results-list { list-style: none; }
     .recent-results-list li {
-      padding: 10px;
+      padding: 8px 10px;
       border-bottom: 1px solid #2A2A2A;
       display: flex;
       align-items: center;
@@ -109,6 +109,65 @@
     .recent-results-list a { color: #58A6FF; text-decoration: none; font-weight: 500; }
     .recent-results-list a:hover { text-decoration: underline; }
     .file-date { font-size: 12px; color: #888; margin-left: 8px; }
+
+    /* ⏰ 출퇴근 체크 섹션 */
+    .attendance-section {
+      background-color: #202020;
+      border: 1px solid #2F2F2F;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 30px;
+    }
+
+    .attendance-header {
+      font-size: 16px;
+      font-weight: bold;
+      color: #40A9FF;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .attendance-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+    }
+
+    .member-card {
+      background-color: #191919;
+      border: 1px solid #333;
+      border-radius: 6px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .member-name {
+      font-size: 15px;
+      font-weight: bold;
+      color: #FFF;
+    }
+
+    .btn-group-att {
+      display: flex;
+      gap: 6px;
+    }
+
+    .btn-att {
+      padding: 6px 10px;
+      font-size: 12px;
+      font-weight: bold;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .btn-att:hover { opacity: 0.8; }
+    .btn-in { background-color: #1C3829; color: #52C41A; border: 1px solid #275038; }
+    .btn-out { background-color: #381C1C; color: #FF4D4F; border: 1px solid #502727; }
 
     /* 5열 레이아웃 grid */
     .dashboard-grid {
@@ -135,7 +194,6 @@
       display: inline-block;
     }
 
-    /* 헤더 링크 스타일 */
     .column-header a {
       color: inherit;
       text-decoration: none;
@@ -147,7 +205,6 @@
       text-decoration: underline;
     }
 
-    /* 5가지 테마 색상 정의 */
     .bg-blue { background-color: #162C46; color: #40A9FF; }
     .bg-green { background-color: #1C3829; color: #52C41A; }
     .bg-teal { background-color: #133B3A; color: #13C2C2; }
@@ -170,10 +227,8 @@
     .link-item a:hover { background-color: #2F2F2F; color: #FFFFFF; }
     .item-icon { font-size: 15px; }
 
-    /* 권한 미달 섹션 비활성화 */
     .locked { opacity: 0.3; pointer-events: none; filter: grayscale(1); }
 
-    /* 하단 안내 바 */
     .footer-bar {
       background-color: #282828;
       border-radius: 6px;
@@ -221,10 +276,21 @@
     </div>
   </div>
 
+  <!-- ⏰ 출퇴근 체크 섹션 -->
+  <div class="attendance-section">
+    <div class="attendance-header">
+      <span>⏰ 원원 출퇴근 간편 기록</span>
+      <small style="font-size:12px; color:#888; font-weight:normal;">이름 옆 출근/퇴근 버튼을 누르면 구글 시트에 일자, 이름, 구분, 시각이 기록됩니다.</small>
+    </div>
+    <div class="attendance-grid" id="attendanceGrid">
+      <!-- 스크립트에서 직원 목록이 자동 생성됩니다 -->
+    </div>
+  </div>
+
   <!-- 메인 대시보드 (5열) -->
   <div class="dashboard-grid">
 
-    <!-- 1열: 접수/치료 (전직원 접근 가능 - 01 폴더 연결) -->
+    <!-- 1열: 접수/치료 -->
     <div class="column" id="colReception">
       <div class="column-header bg-blue">
         <a href="https://drive.google.com/drive/folders/1w2C4X7dtGdOdLnBkkGLqWW18C3z5HSQG" target="_blank">🏥 접수 / 치료 ↗</a>
@@ -240,7 +306,7 @@
       </ul>
     </div>
 
-    <!-- 2열: 매뉴얼 (전직원 접근 가능 - 01 폴더 연결) -->
+    <!-- 2열: 매뉴얼 -->
     <div class="column" id="colManual">
       <div class="column-header bg-green">
         <a href="https://drive.google.com/drive/folders/1w2C4X7dtGdOdLnBkkGLqWW18C3z5HSQG" target="_blank">📜 매뉴얼 ↗</a>
@@ -254,7 +320,7 @@
       </ul>
     </div>
 
-    <!-- 3열: 탕전실 (탕전실 직원 이상 접근 가능 - 02 폴더 연결) -->
+    <!-- 3열: 탕전실 -->
     <div class="column locked" id="colDecoction">
       <div class="column-header bg-teal">
         <a href="https://drive.google.com/drive/folders/1sYdNudJ3Y1wWMhrvIM39M4hmKLryo9NY" target="_blank">🍶 탕전실 ↗</a>
@@ -268,7 +334,7 @@
       </ul>
     </div>
 
-    <!-- 4열: 진료 (진료원장 이상 접근 가능 - 03 폴더 연결) -->
+    <!-- 4열: 진료 -->
     <div class="column locked" id="colDoctor">
       <div class="column-header bg-purple">
         <a href="https://drive.google.com/drive/folders/1caciuhYkxjhIC3zQi6b4ZPLI4huSNFz_" target="_blank">🩺 진료 ↗</a>
@@ -282,7 +348,7 @@
       </ul>
     </div>
 
-    <!-- 5열: 경영 (관리자만 접근 가능 - 04 폴더 연결) -->
+    <!-- 5열: 경영 -->
     <div class="column locked" id="colAdmin">
       <div class="column-header bg-yellow">
         <a href="https://drive.google.com/drive/folders/1HE5f_uSjP8v-lSeO5yTgherYXjt24_yX" target="_blank">💰 경영 ↗</a>
@@ -300,28 +366,33 @@
 
   <!-- 하단 가이드 바 -->
   <div class="footer-bar">
-    <span>⁉️</span> <b>사용 가이드:</b> 각 영역 제목(접수/치료, 매뉴얼 등)을 클릭하면 해당하는 구글 드라이브 폴더로 바로 이동합니다.
+    <span>⁉️</span> <b>사용 가이드:</b> 출퇴근 체크 시 일자, 이름, 구분, 시각 정보가 구글 시트에 실시간 반영됩니다.
   </div>
 
   <script>
     // =========================================================================
-    // ⚙️ [관리자 수정 영역] 직급별 구글 계정 및 기본 인증 키 설정
+    // ⚙️ [관리자 설정 영역]
     // =========================================================================
     const CONFIG = {
       API_KEY: 'AIzaSyBh-jsauSpFXpQ6jBchn-6R4LhozW81woE',
       CLIENT_ID: '757943296763-pk2ffb4r879dn44v55qhvmpsi1891hhj.apps.googleusercontent.com',
 
+      // 🔗 Apps Script 웹 앱 URL
+      ATTENDANCE_WEBAPP_URL: 'https://script.google.com/macros/s/AKfycbyCWWplP7RfMixyLYH31PvpafC6K0KLxueWCpJJGH8MTexHZIMwL_2nyuBZNBS3n-H2Tg/exec',
+
+      // 👥 원원 직원 목록 (필요시 이름만 추가/수정하시면 됩니다)
+      MEMBERS: [
+        '홍순성',
+        '원장님B',
+        '직원A',
+        '직원B',
+        '직원C'
+      ],
+
       ACCOUNTS: {
-        DECOCTION: [
-          'samepsl89@gmail.com'
-        ],
-        DOCTOR: [
-          'crammy55@naver.com'
-        ],
-        ADMIN: [
-          'amercury74@gmail.com',
-          '247stillmoon@gmail.com'
-        ]
+        DECOCTION: ['samepsl89@gmail.com'],
+        DOCTOR: ['crammy55@naver.com'],
+        ADMIN: ['amercury74@gmail.com', '247stillmoon@gmail.com']
       },
 
       FOLDERS: {
@@ -353,8 +424,55 @@
         },
       });
 
+      renderAttendanceGrid();
       loadRecentFiles();
     };
+
+    // 출퇴근 멤버 카드 생성 함수
+    function renderAttendanceGrid() {
+      const grid = document.getElementById('attendanceGrid');
+      grid.innerHTML = '';
+
+      CONFIG.MEMBERS.forEach(name => {
+        const card = document.createElement('div');
+        card.className = 'member-card';
+        card.innerHTML = `
+          <span class="member-name">${name}</span>
+          <div class="btn-group-att">
+            <button class="btn-att btn-in" onclick="recordAttendance('${name}', '출근')">출근</button>
+            <button class="btn-att btn-out" onclick="recordAttendance('${name}', '퇴근')">퇴근</button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // 구글 시트로 [일자, 이름, 구분, 시각] 정보 전송
+    function recordAttendance(name, type) {
+      if (!CONFIG.ATTENDANCE_WEBAPP_URL || CONFIG.ATTENDANCE_WEBAPP_URL.includes('YOUR_APPS_SCRIPT')) {
+        alert('Apps Script 웹 앱 URL이 설정되지 않았습니다. CONFIG 영역에 URL을 입력해주세요.');
+        return;
+      }
+
+      if (!confirm(`${name} 님 [${type}] 체크를 진행하시겠습니까?`)) return;
+
+      const payload = { name: name, type: type };
+
+      fetch(CONFIG.ATTENDANCE_WEBAPP_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+      .then(() => {
+        const timeStr = new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
+        alert(`✅ ${name} 님 [${type}] 체크가 완료되었습니다. (${timeStr})`);
+      })
+      .catch(err => {
+        console.error(err);
+        alert('출퇴근 기록 실패. 인터넷 연결 상태를 확인해주세요.');
+      });
+    }
 
     function handleAuthClick() {
       tokenClient.requestAccessToken({prompt: 'consent'});
