@@ -205,7 +205,7 @@
           <span>📜 매뉴얼</span>
           <span style="font-size: 11px;">↗</span>
         </a>
-        <span class="column-subtext">제목을 누르면 해당 구글드라이브 폴더로 이동, 검색 및 제미나이 사용 가능</span>
+        <span class="column-subtext">제목을 누르면 해당 구글드라이브 폴더로 이동, 검색/제미나이 사용 가능</span>
       </div>
       <ul class="link-list">
         <li class="link-item"><a href="https://drive.google.com/drive/folders/1w2C4X7dtGdOdLnBkkGLqWW18C3z5HSQG" target="_blank">원내 처방집 및 약재 용량표</a></li>
@@ -218,7 +218,7 @@
           <span>🍶 탕전실</span>
           <span style="font-size: 11px;">↗</span>
         </a>
-        <span class="column-subtext">제목을 누르면 해당 구글드라이브 폴더로 이동, 검색 및 제미나이 사용 가능</span>
+        <span class="column-subtext">제목을 누르면 해당 구글드라이브 폴더로 이동, 검색/제미나이 사용 가능</span>
       </div>
       <ul class="link-list">
         <li class="link-item"><a href="https://drive.google.com/drive/folders/1sYdNudJ3Y1wWMhrvIM39M4hmKLryo9NY" target="_blank">탕전 및 제형별 조제 매뉴얼</a></li>
@@ -231,7 +231,7 @@
           <span>🩺 진료</span>
           <span style="font-size: 11px;">↗</span>
         </a>
-        <span class="column-subtext">제목을 누르면 해당 구글드라이브 폴더로 이동, 검색 및 제미나이 사용 가능</span>
+        <span class="column-subtext">제목을 누르면 해당 구글드라이브 폴더로 이동, 검색/제미나이 사용 가능</span>
       </div>
       <ul class="link-list">
         <li class="link-item"><a href="https://drive.google.com/drive/folders/1caciuhYkxjhIC3zQi6b4ZPLI4huSNFz_" target="_blank">학술 / 임상 가이드라인</a></li>
@@ -244,7 +244,7 @@
           <span>💰 경영</span>
           <span style="font-size: 11px;">↗</span>
         </a>
-        <span class="column-subtext">제목을 누르면 해당 구글드라이브 폴더로 이동, 검색 및 제미나이 사용 가능</span>
+        <span class="column-subtext">제목을 누르면 해당 구글드라이브 폴더로 이동, 검색/제미나이 사용 가능</span>
       </div>
       <ul class="link-list">
         <li class="link-item"><a href="https://drive.google.com/drive/folders/1HE5f_uSjP8v-lSeO5yTgherYXjt24_yX" target="_blank">일일 매출 / 수입 집계표</a></li>
@@ -292,12 +292,10 @@
         },
       });
 
-      // 초기 기본값 '퇴근' 세팅
       CONFIG.MEMBERS.forEach(name => {
         attendanceStates[name] = '퇴근';
       });
 
-      // 서버(구글 시트)에서 최신 데이터(근태 상태 및 임시공지) 불러오기
       await syncServerData();
 
       renderAttendanceGrid();
@@ -432,10 +430,6 @@
 
       CONFIG.MEMBERS.forEach(name => {
         const currentState = attendanceStates[name] || '퇴근';
-        
-        // 버튼 텍스트와 색상 설정:
-        // - '출근' 상태이면 초록색 버튼에 '출근' 표시
-        // - '퇴근' 상태이면 빨간색 버튼에 '퇴근' 표시
         const displayLabel = currentState;
         const btnClass = (currentState === '출근') ? 'state-in' : 'state-out';
 
@@ -451,10 +445,6 @@
 
     function toggleAttendance(name) {
       const currentState = attendanceStates[name] || '퇴근';
-      
-      // 사용자 요청 규칙:
-      // - '출근' 버튼을 누르면 -> "출근 처리하시겠습니까?" 물어본 뒤 '퇴근' 상태로 변경
-      // - '퇴근' 버튼을 누르면 -> "퇴근 처리하시겠습니까?" 물어본 뒤 '출근' 상태로 변경
       const targetAction = (currentState === '출근') ? '퇴근' : '출근';
 
       showCustomConfirm(`${name} 님을 [${currentState}] 처리하시겠습니까?`, function(confirmed) {
