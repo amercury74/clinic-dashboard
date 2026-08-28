@@ -429,6 +429,8 @@
 
       CONFIG.MEMBERS.forEach(name => {
         const currentState = attendanceStates[name] || '퇴근';
+        
+        // 버튼 레이블: 현재 '출근' 상태이면 버튼에 '출근' (초록), '퇴근' 상태이면 버튼에 '퇴근' (빨강) 표시
         const displayLabel = currentState;
         const btnClass = (currentState === '출근') ? 'state-in' : 'state-out';
 
@@ -444,6 +446,8 @@
 
     function toggleAttendance(name) {
       const currentState = attendanceStates[name] || '퇴근';
+      
+      // 현재 '퇴근' 상태에서 누르면 '출근' 처리를 물어보고, '출근' 상태에서 누르면 '퇴근' 처리를 물어봄
       const targetAction = (currentState === '출근') ? '퇴근' : '출근';
 
       showCustomConfirm(`${name} 님을 [${targetAction}] 처리하시겠습니까?`, function(confirmed) {
