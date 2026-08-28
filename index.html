@@ -256,7 +256,7 @@
     const CONFIG = {
       API_KEY: 'AIzaSyBh-jsauSpFXpQ6jBchn-6R4LhozW81woE',
       CLIENT_ID: '757943296763-pk2ffb4r879dn44v55qhvmpsi1891hhj.apps.googleusercontent.com',
-      ATTENDANCE_WEBAPP_URL: 'https://script.google.com/macros/s/AKfycbyGYfevDFuz2ldGxAiHHMuda6aOsRm0v1qVLV70MAZ-I5tMnbyUiakiZuLs1T56TEg17g/exec',
+      ATTENDANCE_WEBAPP_URL: 'https://script.google.com/macros/s/AKfycbwANCP8lukEscRbUEK-JzqUnsQXzJNMlxJNDW1gq2Y81bSJLx1x8IDZPRQ-rhfk-4JRKA/exec',
       MEMBERS: ['김선미', '김희정', '박지희', '이수정', '이윤영', '홍주란'],
       ACCOUNTS: {
         DECOCTION: ['samepsl89@gmail.com'],
@@ -445,8 +445,7 @@
 
     function toggleAttendance(name) {
       const currentState = attendanceStates[name] || '퇴근';
-      // 현재 상태가 '퇴근'이면 누를 때 '출근'으로 변경 요청, '출근'이면 '퇴근'으로 변경 요청
-      const targetAction = (currentState === '퇴근') ? '출근' : '퇴근';
+      const targetAction = (currentState === '출근') ? '퇴근' : '출근';
 
       showCustomConfirm(`${name} 님을 [${targetAction}] 처리하시겠습니까?`, function(confirmed) {
         if (!confirmed) return;
