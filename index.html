@@ -172,7 +172,6 @@
   </div>
 
   <div class="dashboard-grid">
-    <!-- 🏥 접수 / 치료 섹션 -->
     <div class="column" id="colReception">
       <div class="column-header bg-blue">
         <a href="https://drive.google.com/drive/folders/1w2C4X7dtGdOdLnBkkGLqWW18C3z5HSQG" target="_blank">
@@ -192,7 +191,6 @@
       </ul>
     </div>
 
-    <!-- 📜 매뉴얼 섹션 -->
     <div class="column" id="colManual">
       <div class="column-header bg-green">
         <a href="https://drive.google.com/drive/folders/1w2C4X7dtGdOdLnBkkGLqWW18C3z5HSQG" target="_blank">
@@ -206,7 +204,6 @@
       </ul>
     </div>
 
-    <!-- 🍶 탕전실 섹션 -->
     <div class="column locked" id="colDecoction">
       <div class="column-header bg-teal">
         <a href="https://drive.google.com/drive/folders/1sYdNudJ3Y1wWMhrvIM39M4hmKLryo9NY" target="_blank">
@@ -220,7 +217,6 @@
       </ul>
     </div>
 
-    <!-- 🩺 진료 섹션 -->
     <div class="column locked" id="colDoctor">
       <div class="column-header bg-purple">
         <a href="https://drive.google.com/drive/folders/1caciuhYkxjhIC3zQi6b4ZPLI4huSNFz_" target="_blank">
@@ -234,7 +230,6 @@
       </ul>
     </div>
 
-    <!-- 💰 경영 섹션 -->
     <div class="column locked" id="colAdmin">
       <div class="column-header bg-yellow">
         <a href="https://drive.google.com/drive/folders/1HE5f_uSjP8v-lSeO5yTgherYXjt24_yX" target="_blank">
@@ -253,7 +248,7 @@
     const CONFIG = {
       API_KEY: 'AIzaSyBh-jsauSpFXpQ6jBchn-6R4LhozW81woE',
       CLIENT_ID: '757943296763-pk2ffb4r879dn44v55qhvmpsi1891hhj.apps.googleusercontent.com',
-      ATTENDANCE_WEBAPP_URL: 'https://script.google.com/macros/s/AKfycbymU3BYecpGBSwIFXaf2zAB0i4ScaZ17E-0r6qpqNldN-RklVpBqMo1SaxW-vzw9dkYIg/exec',
+      ATTENDANCE_WEBAPP_URL: 'https://script.google.com/macros/s/AKfycbyvLSeRmv-dExUjuiDrFGoFQQeEnZIWCRvL_nRITravpe_QTM3KV1hPitC7L2sxEuYw/exec',
       MEMBERS: ['김선미', '김희정', '박지희', '이수정', '이윤영', '홍주란'],
       ACCOUNTS: {
         DECOCTION: ['samepsl89@gmail.com'],
@@ -271,7 +266,7 @@
     let tokenClient;
     let accessToken = null;
     let accessibleFolders = [CONFIG.FOLDERS.STAFF];
-    let attendanceStates = {};
+    let attendanceStates = {}; // IN 또는 OUT
     let noticeList = [];
 
     window.onload = async function() {
@@ -307,7 +302,12 @@
         if (data && data.statuses) {
           for (let name in data.statuses) {
             if (CONFIG.MEMBERS.includes(name)) {
-              attendanceStates[name] = data.statuses[name];
+              let val = String(data.statuses[name]).trim();
+              if (val === 'IN' || val === '출근') {
+                attendanceStates[name] = 'IN';
+              } else {
+                attendanceStates[name] = 'OUT';
+              }
             }
           }
         }
