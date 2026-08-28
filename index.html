@@ -274,7 +274,7 @@
     let tokenClient;
     let accessToken = null;
     let accessibleFolders = [CONFIG.FOLDERS.STAFF];
-    let attendanceStates = {};
+    let attendanceStates = {}; // 'IN' 또는 'OUT'
     let noticeList = [];
 
     window.onload = async function() {
@@ -292,8 +292,9 @@
         },
       });
 
+      // 기본 상태는 모두 집에 있음(OUT)
       CONFIG.MEMBERS.forEach(name => {
-        attendanceStates[name] = '퇴근';
+        attendanceStates[name] = 'OUT';
       });
 
       await syncServerData();
@@ -429,32 +430,38 @@
       grid.innerHTML = '';
 
       CONFIG.MEMBERS.forEach(name => {
-        const currentState = attendanceStates[name] || '퇴근';
-        const displayLabel = currentState;
-        const btnClass = (currentState === '출근') ? 'state-in' : 'state-out';
+        const currentState = attendanceStates[name] || 'OUT';
+        
+        // 현재 집에 있다면(OUT) -> 해야 할 행동은 '출근'(초록)
+        // 현재 직장에 있다면(IN) -> 해야 할 행동은 '퇴근'(빨강)
+        const nextActionLabel = (currentState === 'OUT') ? '출근' : '퇴근';
+        const btnClass = (currentState === 'OUT') ? 'state-in' : 'state-out';
 
         const card = document.createElement('div');
         card.className = 'member-card';
         card.innerHTML = `
           <span class="member-name">${name}</span>
-          <button id="btn-${name}" class="btn-toggle-att ${btnClass}" onclick="toggleAttendance('${name}')">${displayLabel}</button>
+          <button id="btn-${name}" class="btn-toggle-att ${btnClass}" onclick="toggleAttendance('${name}')">${nextActionLabel}</button>
         `;
         grid.appendChild(card);
       });
     }
 
     function toggleAttendance(name) {
-      const currentState = attendanceStates[name] || '퇴근';
-      // 현재 상태가 '퇴근'이면 -> '출근' 처리, 현재 상태가 '출근'이면 -> '퇴근' 처리
-      const targetAction = (currentState === '퇴근') ? '출근' : '퇴근';
+      const currentState = attendanceStates[name] || 'OUT';
+      
+      // 누를 당시의 목표 액션
+      const targetAction = (currentState === 'OUT') ? '출근' : '퇴근';
       const promptMsg = `${name} 님을 [${targetAction}] 처리하시겠습니까?`;
 
       showCustomConfirm(promptMsg, function(confirmed) {
         if (!confirmed) return;
 
-        attendanceStates[name] = targetAction;
+        // UI 즉각 반영 (낙관적 업데이트)
+        attendanceStates[name] = (currentState === 'OUT') ? 'IN' : 'OUT';
         renderAttendanceGrid();
 
+        // 서버로 '출근' 또는 '퇴근' 문자열 전송
         const payload = JSON.stringify({ name: name, type: targetAction });
 
         fetch(CONFIG.ATTENDANCE_WEBAPP_URL, {
@@ -465,7 +472,7 @@
         })
         .then(() => {
           const timeStr = new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
-          showToast(`✅ ${name} 님 [${targetAction}] 완료되었습니다. (${timeStr})`);
+          showToast(`✅ ${name} 님 [${targetAction}] 기록되었습니다. (${timeStr})`);
         })
         .catch(err => {
           console.error(err);
