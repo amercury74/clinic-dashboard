@@ -296,7 +296,6 @@
         attendanceStates[name] = '퇴근';
       });
 
-      // 서버(시트)로부터 출퇴근 상태 및 임시공지 목록 동기화
       await syncServerData();
 
       renderAttendanceGrid();
@@ -304,7 +303,6 @@
       loadRecentFiles();
     };
 
-    // 서버(시트)로부터 데이터 가져오기
     async function syncServerData() {
       try {
         const res = await fetch(CONFIG.ATTENDANCE_WEBAPP_URL);
@@ -326,7 +324,6 @@
       }
     }
 
-    // 서버로 데이터 전송 (임시공지 변경사항 저장)
     async function updateServerNotices(newList) {
       noticeList = newList;
       loadNotices();
@@ -432,13 +429,16 @@
 
       CONFIG.MEMBERS.forEach(name => {
         const currentState = attendanceStates[name] || '퇴근';
-        const btnClass = currentState === '출근' ? 'state-in' : 'state-out';
+        
+        // 버튼 표시: 현재 '퇴근' 상태이면 버튼에 '출근'을 표시하여 누르면 출근되게 함
+        const displayLabel = (currentState === '출근') ? '퇴근' : '출근';
+        const btnClass = (currentState === '출근') ? 'state-in' : 'state-out';
 
         const card = document.createElement('div');
         card.className = 'member-card';
         card.innerHTML = `
           <span class="member-name">${name}</span>
-          <button id="btn-${name}" class="btn-toggle-att ${btnClass}" onclick="toggleAttendance('${name}')">${currentState}</button>
+          <button id="btn-${name}" class="btn-toggle-att ${btnClass}" onclick="toggleAttendance('${name}')">${displayLabel}</button>
         `;
         grid.appendChild(card);
       });
@@ -446,15 +446,16 @@
 
     function toggleAttendance(name) {
       const currentState = attendanceStates[name] || '퇴근';
-      const actionType = (currentState === '출근') ? '퇴근' : '출근';
+      // 현재 '퇴근' 상태에서 누르면 '출근' 처리가 되므로, 전환될 액션을 정함
+      const targetAction = (currentState === '출근') ? '퇴근' : '출근';
 
-      showCustomConfirm(`${name} 님 [${actionType}] 처리를 진행하시겠습니까?`, function(confirmed) {
+      showCustomConfirm(`${name} 님을 [${targetAction}] 처리하시겠습니까?`, function(confirmed) {
         if (!confirmed) return;
 
-        attendanceStates[name] = actionType;
+        attendanceStates[name] = targetAction;
         renderAttendanceGrid();
 
-        const payload = JSON.stringify({ name: name, type: actionType });
+        const payload = JSON.stringify({ name: name, type: targetAction });
 
         fetch(CONFIG.ATTENDANCE_WEBAPP_URL, {
           method: 'POST',
@@ -464,7 +465,7 @@
         })
         .then(() => {
           const timeStr = new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
-          showToast(`✅ ${name} 님 [${actionType}] 완료되었습니다. (${timeStr})`);
+          showToast(`✅ ${name} 님 [${targetAction}] 완료되었습니다. (${timeStr})`);
         })
         .catch(err => {
           console.error(err);
