@@ -66,7 +66,9 @@
     
     .member-name { font-size: 12.5px; font-weight: bold; color: #FFFFFF; white-space: nowrap; }
     .btn-toggle-att { padding: 3px 8px; font-size: 11px; font-weight: bold; border-radius: 4px; cursor: pointer; border: none; white-space: nowrap; }
+    /* 출근 상태: 초록색 버튼에 '출근' 표시 */
     .state-in { background-color: #064E3B; color: #34D399; border: 1px solid #059669; }
+    /* 퇴근 상태: 빨간색 버튼에 '퇴근' 표시 */
     .state-out { background-color: #7F1D1D; color: #FCA5A5; border: 1px solid #DC2626; }
     
     .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); display: flex; justify-content: center; align-items: center; z-index: 1000; display: none; }
@@ -412,6 +414,7 @@
       };
       newCancelBtn.onclick = function() {
         modal.style.display = 'none';
+        onConfirm(false);
       };
     }
 
@@ -430,8 +433,10 @@
       CONFIG.MEMBERS.forEach(name => {
         const currentState = attendanceStates[name] || '퇴근';
         
-        // 버튼 레이블: 현재 '출근' 상태이면 버튼에 '출근' (초록), '퇴근' 상태이면 버튼에 '퇴근' (빨강) 표시
-        const displayLabel = currentState;
+        // 버튼 텍스트와 색상 설정:
+        // 현재 '출근' 상태이면 버튼에 '출근' 표시 (초록색)
+        // 현재 '퇴근' 상태이면 버튼에 '퇴근' 표시 (빨간색)
+        const displayLabel = currentState; 
         const btnClass = (currentState === '출근') ? 'state-in' : 'state-out';
 
         const card = document.createElement('div');
@@ -447,16 +452,19 @@
     function toggleAttendance(name) {
       const currentState = attendanceStates[name] || '퇴근';
       
-      // 현재 '퇴근' 상태에서 누르면 '출근' 처리를 물어보고, '출근' 상태에서 누르면 '퇴근' 처리를 물어봄
-      const targetAction = (currentState === '출근') ? '퇴근' : '출근';
+      // 요청하신 대로:
+      // - 현재 '출근' 상태(초록 버튼)를 누르면 -> "출근 처리하시겠습니까?" 물어본 뒤 '퇴근'으로 변경
+      // - 현재 '퇴근' 상태(빨간 버튼)를 누르면 -> "퇴근 처리하시겠습니까?" 물어본 뒤 '출근'으로 변경
+      const promptAction = currentState; // '출근' 또는 '퇴근'
+      const nextAction = (currentState === '출근') ? '퇴근' : '출근';
 
-      showCustomConfirm(`${name} 님을 [${targetAction}] 처리하시겠습니까?`, function(confirmed) {
+      showCustomConfirm(`${name} 님을 [${promptAction}] 처리하시겠습니까?`, function(confirmed) {
         if (!confirmed) return;
 
-        attendanceStates[name] = targetAction;
+        attendanceStates[name] = nextAction;
         renderAttendanceGrid();
 
-        const payload = JSON.stringify({ name: name, type: targetAction });
+        const payload = JSON.stringify({ name: name, type: nextAction });
 
         fetch(CONFIG.ATTENDANCE_WEBAPP_URL, {
           method: 'POST',
@@ -466,7 +474,7 @@
         })
         .then(() => {
           const timeStr = new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
-          showToast(`✅ ${name} 님 [${targetAction}] 완료되었습니다. (${timeStr})`);
+          showToast(`✅ ${name} 님 [${promptAction}] 완료되었습니다. (${timeStr})`);
         })
         .catch(err => {
           console.error(err);
