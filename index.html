@@ -292,8 +292,9 @@
 
       loadNotices();
 
+      // 기본값을 '퇴근'으로 통일하여 초기화 오류 방지
       CONFIG.MEMBERS.forEach(name => {
-        attendanceStates[name] = '출근';
+        attendanceStates[name] = '퇴근';
       });
 
       await syncAttendanceStates();
@@ -366,10 +367,13 @@
       });
     }
 
+    // 시트에서 상태를 정상적으로 읽어오도록 수정된 동기화 함수
     async function syncAttendanceStates() {
       try {
         const res = await fetch(CONFIG.ATTENDANCE_WEBAPP_URL);
         const data = await res.json();
+        console.log("서버 상태 응답:", data); // F12 개발자도구 콘솔에서 확인 가능
+        
         if (data && data.statuses) {
           for (let name in data.statuses) {
             if (CONFIG.MEMBERS.includes(name)) {
@@ -378,7 +382,7 @@
           }
         }
       } catch (e) {
-        console.error("상태 동기화 중 오류:", e);
+        console.error("출퇴근 상태 동기화 중 오류:", e);
       }
     }
 
@@ -418,7 +422,7 @@
       grid.innerHTML = '';
 
       CONFIG.MEMBERS.forEach(name => {
-        const currentState = attendanceStates[name];
+        const currentState = attendanceStates[name] || '퇴근';
         const btnClass = currentState === '출근' ? 'state-in' : 'state-out';
 
         const card = document.createElement('div');
@@ -432,15 +436,15 @@
     }
 
     function toggleAttendance(name) {
-      const currentState = attendanceStates[name];
-      const actionType = currentState;
+      const currentState = attendanceStates[name] || '퇴근';
+      // 누르는 시점의 반대 상태를 전송 (현재 '출근'이면 누를 때 '퇴근' 전송)
+      const actionType = (currentState === '출근') ? '퇴근' : '출근';
 
       showCustomConfirm(`${name} 님 [${actionType}] 처리를 진행하시겠습니까?`, function(confirmed) {
         if (!confirmed) return;
 
-        // [수정] 즉시 화면 상태를 반전시켜 반영 (출근 <-> 퇴근)
-        const nextState = (currentState === '출근') ? '퇴근' : '출근';
-        attendanceStates[name] = nextState;
+        // 화면 즉시 반영
+        attendanceStates[name] = actionType;
         renderAttendanceGrid();
 
         const payload = JSON.stringify({ name: name, type: actionType });
