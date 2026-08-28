@@ -134,6 +134,7 @@
 
   <div class="top-layout-grid">
     
+    <!-- 임시공지 섹션 -->
     <div class="notice-board-section">
       <div>
         <div class="section-header-row">
@@ -143,7 +144,8 @@
           </div>
         </div>
         <div id="noticeListContainer" class="notice-list-container">
-          </div>
+          <!-- 동적 생성 -->
+        </div>
       </div>
       <div class="notice-input-area">
         <input type="text" id="newNoticeInput" class="notice-input" placeholder="새로운 임시공지 입력...">
@@ -151,6 +153,7 @@
       </div>
     </div>
 
+    <!-- 최근 업데이트된 문서 칸 -->
     <div class="recent-pane">
       <div class="section-header-row" style="margin-bottom: 8px;">
         <div class="section-title-group">
@@ -163,6 +166,7 @@
       </div>
     </div>
 
+    <!-- 출퇴근 기록 칸 -->
     <div class="attendance-pane">
       <div class="section-header-row" style="margin-bottom: 8px;">
         <div class="section-title-group">
@@ -288,10 +292,12 @@
         },
       });
 
+      // 초기 기본값 '퇴근' 세팅
       CONFIG.MEMBERS.forEach(name => {
         attendanceStates[name] = '퇴근';
       });
 
+      // 서버(구글 시트)에서 최신 데이터(근태 상태 및 임시공지) 불러오기
       await syncServerData();
 
       renderAttendanceGrid();
@@ -426,6 +432,10 @@
 
       CONFIG.MEMBERS.forEach(name => {
         const currentState = attendanceStates[name] || '퇴근';
+        
+        // 버튼 텍스트와 색상 설정:
+        // - '출근' 상태이면 초록색 버튼에 '출근' 표시
+        // - '퇴근' 상태이면 빨간색 버튼에 '퇴근' 표시
         const displayLabel = currentState;
         const btnClass = (currentState === '출근') ? 'state-in' : 'state-out';
 
@@ -442,17 +452,18 @@
     function toggleAttendance(name) {
       const currentState = attendanceStates[name] || '퇴근';
       
-      // 현재 상태('출근' 또는 '퇴근')에 맞춰 물어보고 반대 상태로 전환
-      const promptAction = currentState; 
-      const nextAction = (currentState === '출근') ? '퇴근' : '출근';
+      // 사용자 요청 규칙:
+      // - '출근' 버튼을 누르면 -> "출근 처리하시겠습니까?" 물어본 뒤 '퇴근' 상태로 변경
+      // - '퇴근' 버튼을 누르면 -> "퇴근 처리하시겠습니까?" 물어본 뒤 '출근' 상태로 변경
+      const targetAction = (currentState === '출근') ? '퇴근' : '출근';
 
-      showCustomConfirm(`${name} 님을 [${promptAction}] 처리하시겠습니까?`, function(confirmed) {
+      showCustomConfirm(`${name} 님을 [${currentState}] 처리하시겠습니까?`, function(confirmed) {
         if (!confirmed) return;
 
-        attendanceStates[name] = nextAction;
+        attendanceStates[name] = targetAction;
         renderAttendanceGrid();
 
-        const payload = JSON.stringify({ name: name, type: nextAction });
+        const payload = JSON.stringify({ name: name, type: targetAction });
 
         fetch(CONFIG.ATTENDANCE_WEBAPP_URL, {
           method: 'POST',
@@ -462,7 +473,7 @@
         })
         .then(() => {
           const timeStr = new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
-          showToast(`✅ ${name} 님 [${promptAction}] 완료되었습니다. (${timeStr})`);
+          showToast(`✅ ${name} 님 [${currentState}] 완료되었습니다. (${timeStr})`);
         })
         .catch(err => {
           console.error(err);
